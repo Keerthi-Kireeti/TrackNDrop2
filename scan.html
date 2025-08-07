@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop - QR Scanner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- QR Scanner Section -->
+  <section id="scan" class="py-16 bg-white" data-aos="zoom-in">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-blue-900 mb-6" data-aos="fade-up">QR Code Scanner</h2>
+
+      <div class="max-w-2xl mx-auto bg-gray-50 p-8 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-center mb-6">
+          <!-- NEW VERSION -->
+        <div class="mx-auto w-64 h-64 mb-4 rounded-lg border-2 border-yellow-400 overflow-hidden" id="reader-container">
+          <div id="reader" class="w-full h-full"></div>
+        </div>
+        <p id="resultMsg" class="text-blue-900 font-semibold"></p>
+
+          <p class="text-gray-600 mb-4">Scan the QR code on a returnable box to view or update its status</p>
+          <button id="startScanner" class="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition">
+            <i class="fas fa-camera mr-2"></i> Start Scanner
+          </button>
+        </div>
+
+        <div id="scannerResult" class="hidden bg-white p-6 rounded-lg border border-gray-200">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-blue-800">Box Details</h3>
+            <button id="closeScanner" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Box ID</p>
+                <p class="font-medium text-lg text-blue-800" id="boxId">BOX-2023-05642</p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Type</p>
+                <p class="font-medium text-blue-800" id="boxType">Plastic Container (Medium)</p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Cycle Count</p>
+                <div class="flex items-center">
+                  <span class="font-medium mr-2 text-blue-800" id="cycleCount">27</span>
+                  <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800" id="inspectionStatus">Due for Inspection</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Current Location</p>
+                <p class="font-medium text-blue-800" id="currentLocation">Warehouse A, Shelf 4B</p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Last Used</p>
+                <p class="font-medium text-blue-800" id="lastUsed">2023-11-15</p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600">Manufacture Date</p>
+                <p class="font-medium text-blue-800" id="manufactureDate">2022-05-10</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h4 class="font-medium mb-2 text-blue-700">Update Status</h4>
+            <div class="flex flex-wrap gap-2">
+              <button class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-200">Check In</button>
+              <button class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-yellow-200">Check Out</button>
+              <button class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-blue-200">Mark for Inspection</button>
+              <button class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-red-200">Retire Box</button>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gray-200">
+            <h4 class="font-medium mb-2 text-blue-700">History Log</h4>
+            <div class="space-y-3">
+              <div class="flex items-start">
+                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                  <i class="fas fa-sign-out-alt text-yellow-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-800">Checked Out</p>
+                  <p class="text-sm text-gray-500">2 days ago by John Doe</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                  <i class="fas fa-sign-in-alt text-blue-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-800">Checked In</p>
+                  <p class="text-sm text-gray-500">5 days ago by Jane Smith</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                  <i class="fas fa-tools text-yellow-600"></i>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-800">Repair Completed</p>
+                  <p class="text-sm text-gray-500">2 weeks ago by Mike Johnson</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+ <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS Animations + QR Code Scanner -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+  AOS.init({ once: true, duration: 800, offset: 100 });
+
+  function onScanSuccess(decodedText) {
+    const boxId = decodedText.trim();
+
+    const payload = {
+      box_id: boxId,
+      action_type: 'issued', // Change dynamically if needed
+      location: 'Warehouse A',
+      user_id: 'operator_123'
+    };
+
+    fetch('http://localhost:3000/api/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('resultMsg').innerText = '✅ ' + data.message;
+    })
+    .catch(err => {
+      document.getElementById('resultMsg').innerText = '❌ Failed: ' + err.message;
+    });
+  }
+
+  // Start the scanner after DOM is loaded
+  window.addEventListener('DOMContentLoaded', () => {
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      onScanSuccess
+    );
+  });
+</script>
+
+<!-- Optional: Your additional JS file -->
+<script src="script.js"></script>

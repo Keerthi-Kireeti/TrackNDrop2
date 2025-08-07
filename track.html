@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackNDrop - Track Your Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+</head>
+<body class="bg-gray-50">
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation (Common to all pages) -->
+    <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Tracking Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Track Your Return Order</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Enter your tracking number below to get real-time updates on your return order's journey.</p>
+            
+            <div class="max-w-xl mx-auto bg-gray-50 p-8 rounded-xl shadow-sm">
+                <div class="relative mb-6">
+                    <input type="text" placeholder="Enter Tracking Number..." class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
+                    <i class="fas fa-barcode absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+                </div>
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition text-lg">
+                    <i class="fas fa-truck-fast mr-2"></i> Track Order
+                </button>
+
+              <div class="mt-10 bg-gray-200 rounded-lg overflow-hidden border border-gray-300" style="height: 400px;">
+    <!-- Static Map Mockup (No API) -->
+    <img src= "map.png">
+</div>
+
+                <p class="text-sm text-gray-500 mt-4">Map shows current location and estimated delivery route.</p>
+
+                <div class="mt-8 text-left">
+                    <h3 class="text-xl font-semibold text-blue-700 mb-4">Order Status:</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-600 mr-3 text-lg"></i>
+                            <p class="text-gray-700"><span class="font-medium">October 28, 2023, 10:30 AM:</span> Return initiated</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-truck-loading text-blue-600 mr-3 text-lg"></i>
+                            <p class="text-gray-700"><span class="font-medium">October 29, 2023, 02:15 PM:</span> Picked up from customer</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-warehouse text-yellow-600 mr-3 text-lg"></i>
+                            <p class="text-gray-700"><span class="font-medium">October 30, 2023, 09:00 AM:</span> Arrived at local sorting facility</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-route text-gray-500 mr-3 text-lg"></i>
+                            <p class="text-gray-700"><span class="font-medium">Estimated Arrival:</span> November 2, 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+    <script src="script.js"></script>
+</body>
+</html>

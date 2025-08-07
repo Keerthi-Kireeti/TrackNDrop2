@@ -1,0 +1,81 @@
+/* Walmart Color Scheme */
+.header-bg {
+    background: #0071DC; /* Walmart Blue */
+}
+
+.hero-bg {
+    background: #0071DC; /* Solid Walmart Blue */
+}
+
+.footer-bg {
+    background: #0071DC; /* Walmart Blue */
+}
+
+/* Text Colors */
+.text-blue-800 { color: #004F9A; } /* Darker Walmart Blue */
+.text-blue-700 { color: #0066CC; }
+.text-blue-600 { color: #0071DC; } /* Main Walmart Blue */
+.text-blue-500 { color: #1A8CFF; }
+.text-blue-100 { color: #E6F2FF; }
+
+.text-yellow-800 { color: #E6B800; }
+.text-yellow-700 { color: #FFC220; } /* Main Walmart Yellow */
+.text-yellow-600 { color: #FFCC00; }
+.text-yellow-500 { color: #FFD700; }
+.text-yellow-200 { color: #FFE680; }
+.text-yellow-100 { color: #FFF2B3; }
+
+/* Backgrounds */
+.bg-blue-50 { background-color: #F0F7FF; }
+.bg-blue-100 { background-color: #E6F2FF; }
+.bg-blue-200 { background-color: #CCE5FF; }
+
+.bg-yellow-50 { background-color: #FFF9E6; }
+.bg-yellow-100 { background-color: #FFF2B3; }
+.bg-yellow-200 { background-color: #FFE680; }
+
+/* Alert Colors */
+.bg-green-50 { background-color: #E6FFE6; }
+.bg-green-100 { background-color: #CCFFCC; }
+.text-green-600 { color: #00B300; }
+.text-green-800 { color: #008000; }
+
+.bg-red-50 { background-color: #FFE6E6; }
+.bg-red-100 { background-color: #FFCCCC; }
+.text-red-600 { color: #FF0000; }
+.text-red-800 { color: #CC0000; }
+
+/* Components */
+.box-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 113, 220, 0.2);
+}
+
+.qr-scanner {
+    border: 2px dashed #0071DC;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { border-color: #0071DC; }
+    50% { border-color: #FFC220; }
+    100% { border-color: #0071DC; }
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #FFC220;
+    color: #004F9A;
+}
+
+.btn-primary:hover {
+    background-color: #FFD700;
+}
+
+.btn-secondary {
+    background-color: #0071DC;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #0066CC;
+}

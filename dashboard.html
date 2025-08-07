@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition">Boxes</a>
+        <a href="scan.html" class="text-yellow-400 hover:text-white transition">Scan</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition">Alerts</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition">Settings</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition">Generate QR</a>
+      </div>
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Dashboard Overview -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-blue-800" data-aos="fade-up">System Dashboard</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">
+        <!-- Stats Cards -->
+        <div class="bg-blue-100 p-6 rounded-xl shadow hover:shadow-md transition-transform hover:scale-105" data-aos="zoom-in">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-200 text-blue-700 mr-4">
+              <i class="fas fa-box text-xl"></i>
+            </div>
+            <div>
+              <p class="text-blue-600">Total Boxes</p>
+              <h3 class="text-2xl font-bold text-blue-800">1,248</h3>
+            </div>
+          </div>
+        </div>
+        <div class="bg-yellow-100 p-6 rounded-xl shadow hover:shadow-md transition-transform hover:scale-105" data-aos="zoom-in">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-200 text-yellow-700 mr-4">
+              <i class="fas fa-check-circle text-xl"></i>
+            </div>
+            <div>
+              <p class="text-yellow-600">Active Boxes</p>
+              <h3 class="text-2xl font-bold text-yellow-800">982</h3>
+            </div>
+          </div>
+        </div>
+        <div class="bg-blue-100 p-6 rounded-xl shadow hover:shadow-md transition-transform hover:scale-105" data-aos="zoom-in">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-200 text-blue-700 mr-4">
+              <i class="fas fa-exclamation-triangle text-xl"></i>
+            </div>
+            <div>
+              <p class="text-blue-600">Needs Inspection</p>
+              <h3 class="text-2xl font-bold text-blue-800">87</h3>
+            </div>
+          </div>
+        </div>
+        <div class="bg-yellow-100 p-6 rounded-xl shadow hover:shadow-md transition-transform hover:scale-105" data-aos="zoom-in">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-200 text-yellow-700 mr-4">
+              <i class="fas fa-times-circle text-xl"></i>
+            </div>
+            <div>
+              <p class="text-yellow-600">End of Life</p>
+              <h3 class="text-2xl font-bold text-yellow-800">179</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8" data-aos="fade-up" data-aos-delay="300">
+        <div class="bg-white p-6 rounded-xl shadow border border-gray-100" data-aos="flip-left">
+          <h3 class="text-xl font-semibold mb-4 text-blue-700">Box Usage Distribution</h3>
+          <canvas id="usageChart" height="250"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow border border-gray-100" data-aos="flip-right">
+          <h3 class="text-xl font-semibold mb-4 text-blue-700">Monthly Box Turnover</h3>
+          <canvas id="turnoverChart" height="250"></canvas>
+        </div>
+      </div>
+
+      <!-- JS for Chart Rendering -->
+      <script>
+        const usageCtx = document.getElementById('usageChart').getContext('2d');
+        new Chart(usageCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Active', 'Needs Inspection', 'End of Life'],
+            datasets: [{
+              data: [982, 87, 179],
+              backgroundColor: ['#3B82F6', '#FBBF24', '#EF4444'],
+              hoverOffset: 4
+            }]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'top' } } }
+        });
+
+        const turnoverCtx = document.getElementById('turnoverChart').getContext('2d');
+        new Chart(turnoverCtx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [
+              { label: 'Checked In', data: [65, 59, 80, 81, 56, 55], borderColor: '#3B82F6', tension: 0.1 },
+              { label: 'Checked Out', data: [28, 48, 40, 19, 86, 27], borderColor: '#FBBF24', tension: 0.1 }
+            ]
+          },
+          options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+        });
+      </script>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS Init -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+</body>
+</html>

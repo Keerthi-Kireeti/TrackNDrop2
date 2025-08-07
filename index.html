@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop - Smart Monitoring for Returnable Packing</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- AOS Animations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+  <!-- Custom Animation Style -->
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+</div>
+
+      <div class="hidden md:flex space-x-6">
+  <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+  <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+  <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
+  <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+  <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+  <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+  <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+</div>
+
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-blue-800 text-white py-16" data-aos="zoom-in">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up" data-aos-delay="100">Smart Monitoring System</h1>
+    <h2 class="text-2xl md:text-3xl font-semibold mb-6" data-aos="fade-up" data-aos-delay="200">For Returnable Packing Box Lifecycle</h2>
+    <p class="text-xl max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="300">
+      Track, monitor, and optimize your returnable packing boxes with our intelligent lifecycle management system.
+    </p>
+    <div class="flex justify-center" data-aos="fade-up" data-aos-delay="400">
+      <a href="login.html" class="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition duration-200">
+        <i class="fas fa-sign-in-alt mr-2"></i> Get Started
+      </a>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
+            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS Animation Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,
+      duration: 800,
+      offset: 100
+    });
+  </script>
+
+  <!-- Custom Script -->
+  <script src="script.js"></script>
+</body>
+</html>

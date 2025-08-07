@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+    .glow {
+      text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Section -->
+  <section class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4" data-aos="zoom-in">
+    <div class="max-w-md w-full bg-white shadow-lg rounded-xl p-8">
+      <h2 class="text-3xl font-bold text-center text-blue-900 mb-2 glow" data-aos="fade-up">Welcome Back</h2>
+      <p class="text-center text-sm text-blue-600 mb-6" data-aos="fade-up" data-aos-delay="100">Login to continue tracking your boxes smartly</p>
+      <form class="space-y-6" id="loginForm" data-aos="fade-up" data-aos-delay="200">
+        <div>
+          <label for="username" class="block text-sm font-medium text-blue-700">Username</label>
+          <input type="text" id="username" class="mt-1 w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Enter your username">
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-blue-700">Password</label>
+          <input type="password" id="password" class="mt-1 w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full bg-yellow-400 text-blue-900 font-semibold py-2 rounded-lg hover:bg-yellow-300 transition duration-200">
+          <i class="fas fa-sign-in-alt mr-2"></i>Login
+        </button>
+      </form>
+      <p class="mt-4 text-center text-sm text-blue-600">Don't have an account? <a href="#" class="text-yellow-500 hover:underline">Sign up</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-blue-100">&copy; 2023 TrackNDrop. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      // Simulate login success
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>
