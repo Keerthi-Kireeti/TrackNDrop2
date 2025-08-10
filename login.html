@@ -19,25 +19,26 @@
     .glow {
       text-shadow: 0 0 10px #facc15, 0 0 20px #facc15;
     }
+
+    /* Login success animations */
+    @keyframes success-pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes ring-expand { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(1.8); opacity: 0; } }
+    @keyframes fade-in-up { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="bg-gray-50">
-  <!-- Navigation -->
+  <!-- Minimal Header (no nav links on login page) -->
   <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
-        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
       </div>
-      <div class="hidden md:flex space-x-6">
-        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
-        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
-        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
-        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
-        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
-        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
-        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
-      </div>
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
     </div>
   </nav>
 
@@ -55,31 +56,99 @@
           <label for="password" class="block text-sm font-medium text-blue-700">Password</label>
           <input type="password" id="password" class="mt-1 w-full px-4 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="••••••••">
         </div>
+        <div>
+          <span class="block text-sm font-medium text-blue-700 mb-2">Login as</span>
+          <div class="flex items-center gap-4">
+            <label class="inline-flex items-center gap-2 text-blue-800">
+              <input type="radio" name="user_type" value="user" class="text-yellow-500" checked>
+              <span>User</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-blue-800">
+              <input type="radio" name="user_type" value="admin" class="text-yellow-500">
+              <span>Admin</span>
+            </label>
+            <label class="inline-flex items-center gap-2 text-blue-800">
+              <input type="radio" name="user_type" value="delivery_executive" class="text-yellow-500">
+              <span>Delivery Executive</span>
+            </label>
+          </div>
+        </div>
         <button type="submit" class="w-full bg-yellow-400 text-blue-900 font-semibold py-2 rounded-lg hover:bg-yellow-300 transition duration-200">
           <i class="fas fa-sign-in-alt mr-2"></i>Login
         </button>
       </form>
-      <p class="mt-4 text-center text-sm text-blue-600">Don't have an account? <a href="#" class="text-yellow-500 hover:underline">Sign up</a></p>
+      <p class="mt-4 text-center text-sm text-blue-600">Don't have an account? <a href="signup.html" class="text-yellow-500 hover:underline">Sign up</a></p>
     </div>
   </section>
 
+  <!-- Login Success Overlay -->
+  <div id="loginSuccessOverlay" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center">
+    <div class="bg-white rounded-2xl p-8 w-80 text-center shadow-2xl" style="animation: fade-in-up 300ms ease both;">
+      <div class="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-green-100 relative" style="animation: success-pop 600ms ease both;">
+        <i class="fas fa-check text-3xl text-green-600"></i>
+        <span class="absolute inset-0 rounded-full border-2 border-green-400" style="animation: ring-expand 900ms ease-out 200ms both;"></span>
+      </div>
+      <h3 class="mt-4 text-xl font-semibold text-blue-900">Welcome back!</h3>
+      <p class="text-blue-700/80 text-sm">Logging you in...</p>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
-    <div class="container mx-auto px-4 text-center">
-      <p class="text-blue-100">&copy; 2023 TrackNDrop. All rights reserved.</p>
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-200"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
-
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      // Simulate login success
-      window.location.href = "dashboard.html";
-    });
-  </script>
+  <script src="script.js"></script>
+  <script src="login.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
 </body>
 </html>

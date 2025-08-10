@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="common_styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 </head>
   <style>
     @keyframes bounce-slow {
@@ -25,25 +26,34 @@
   <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
-        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
       </div>
-      <div class="hidden md:flex space-x-6">
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
         <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
         <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
-        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
         <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
-        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
         <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
         <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
-        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
       </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
     </div>
   </nav>
 <body class="bg-gray-50">
 
     <!-- Alerts Section -->
-    <section id="alerts" class="py-12 bg-gray-50">
+    <section id="alerts" class="py-12 bg-gray-50" data-aos="fade-up">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Alerts & Notifications</h2>
             
@@ -65,7 +75,7 @@
                                 <p class="text-sm text-gray-600">Plastic container has reached 147 of 150 allowed cycles. Please inspect before next use.</p>
                                 <div class="mt-2 text-sm text-gray-500">2 hours ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -79,7 +89,7 @@
                                 <p class="text-sm text-gray-600">Metal crate has completed 200 cycles. Please retire and replace this box.</p>
                                 <div class="mt-2 text-sm text-gray-500">1 day ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -93,7 +103,7 @@
                                 <p class="text-sm text-gray-600">Wooden pallet has damage reported during last use. Please inspect before next dispatch.</p>
                                 <div class="mt-2 text-sm text-gray-500">3 days ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -107,7 +117,7 @@
                                 <p class="text-sm text-gray-600">Wooden pallet has been repaired and is ready for use. Reset cycle count to 0.</p>
                                 <div class="mt-2 text-sm text-gray-500">1 week ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -131,7 +141,7 @@
                                 <p class="text-sm text-gray-600">Plastic container has reached 147 of 150 allowed cycles. Please inspect before next use.</p>
                                 <div class="mt-2 text-sm text-gray-500">2 hours ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -145,7 +155,7 @@
                                 <p class="text-sm text-gray-600">Wooden pallet has damage reported during last use. Please inspect before next dispatch.</p>
                                 <div class="mt-2 text-sm text-gray-500">3 days ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -169,7 +179,7 @@
                                 <p class="text-sm text-gray-600">Metal crate has completed 200 cycles. Please retire and replace this box.</p>
                                 <div class="mt-2 text-sm text-gray-500">1 day ago</div>
                             </div>
-                            <button class="text-gray-400 hover:text-gray-600">
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -210,19 +220,19 @@
         <div>
           <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
           </ul>
         </div>
         <div>
@@ -248,6 +258,11 @@
       </div>
     </div>
   </footer>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
     <script src="script.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
+    <script src="alerts.js"></script>
 </body>
 </html>

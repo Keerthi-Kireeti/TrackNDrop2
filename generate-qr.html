@@ -6,6 +6,7 @@
     <title>TrackNDrop - Generate QR Code</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
     <style>
         @keyframes bounce-slow {
             0%, 100% { transform: translateY(0); }
@@ -14,6 +15,31 @@
         .animate-bounce-slow {
             animation: bounce-slow 2s infinite;
         }
+        
+        /* QR Code Styles */
+        #qrImage, .qr-image {
+            transition: transform 0.3s ease;
+        }
+        #qrImage:hover, .qr-image:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Animation for QR code appearance */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .qr-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Container styles */
+        .qr-container {
+            transition: all 0.3s ease;
+        }
+        .qr-container:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -21,24 +47,33 @@
     <nav class="bg-blue-900 text-white shadow-lg">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
-                <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+                    <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+                </a>
             </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
-                <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
-                <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
-                <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
-                <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
-                <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
-                <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
-                <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
-            </div>
+                  <!-- Profile Icon and Navigation Options -->
+                  <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
         </div>
     </nav>
 
     <!-- QR Generation Section -->
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-white" data-aos="fade-up">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Generate QR Code for Box</h2>
             <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto text-center">Select a box and enter the last checked-in location to generate a QR code for delivery tracking.</p>
@@ -62,18 +97,18 @@
                     </button>
                 </form>
                 
-                <div id="qrResult" class="mt-8 hidden">
+                <div id="qrResult" class="mt-8 hidden qr-fade-in">
                     <div class="text-center">
                         <h3 class="text-xl font-semibold text-blue-700 mb-4">Generated QR Code</h3>
-                        <div class="bg-white p-6 rounded-lg border border-gray-200 inline-block">
-                            <img id="qrImage" src="" alt="QR Code" class="mx-auto">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 inline-block shadow-md qr-container">
+                            <img id="qrImage" src="" alt="QR Code" class="mx-auto w-64 h-64 object-contain">
                         </div>
                         <div class="mt-4 space-y-2">
                             <p class="text-sm text-gray-600">Box ID: <span id="boxId" class="font-medium"></span></p>
                             <p class="text-sm text-gray-600">Location: <span id="boxLocation" class="font-medium"></span></p>
-                            <button id="downloadBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                            <a id="downloadBtn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition inline-block cursor-pointer">
                                 <i class="fas fa-download mr-2"></i> Download QR Code
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -81,13 +116,319 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-blue-100">&copy; 2023 TrackNDrop. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
     <script src="script.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const boxSelect = document.getElementById('boxSelect');
+            const qrForm = document.getElementById('qrForm');
+            const qrResult = document.getElementById('qrResult');
+            const boxIdSpan = document.getElementById('boxId');
+            const boxLocationSpan = document.getElementById('boxLocation');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Fetch boxes from API
+            fetch('http://localhost:3000/api/boxes')
+                .then(response => response.json())
+                .then(boxes => {
+                    // Clear any existing options
+                    boxSelect.innerHTML = '<option value="">Choose a box...</option>';
+                    
+                    // Add checkboxes for multiple selection
+                    const boxSelectionDiv = document.createElement('div');
+                    boxSelectionDiv.className = 'mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3';
+                    boxSelectionDiv.id = 'boxSelectionDiv';
+                    
+                    boxes.forEach(box => {
+                        // Add to dropdown
+                        const option = document.createElement('option');
+                        option.value = box.box_id;
+                        option.textContent = `${box.box_id} (${box.type})`;
+                        boxSelect.appendChild(option);
+                        
+                        // Create checkbox for multiple selection
+                        const checkboxDiv = document.createElement('div');
+                        checkboxDiv.className = 'flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `box-${box.box_id}`;
+                        checkbox.value = box.box_id;
+                        checkbox.className = 'mr-2 h-5 w-5 text-blue-600';
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `box-${box.box_id}`;
+                        label.className = 'text-sm text-gray-700 flex-1';
+                        label.innerHTML = `<span class="font-medium">${box.box_id}</span> - ${box.type} <span class="text-xs ml-2 ${box.status === 'active' ? 'text-green-600' : box.status === 'needs_inspection' ? 'text-yellow-600' : 'text-red-600'}">(${box.status})</span>`;
+                        
+                        checkboxDiv.appendChild(checkbox);
+                        checkboxDiv.appendChild(label);
+                        boxSelectionDiv.appendChild(checkboxDiv);
+                    });
+                    
+                    // Create the selection div for multiple QR codes
+                    const selectionContainer = document.createElement('div');
+                    selectionContainer.className = 'mt-12 pt-8 border-t border-gray-200';
+                    selectionContainer.innerHTML = `
+                        <h3 class="text-2xl font-semibold text-blue-800 mb-4">Generate Multiple QR Codes</h3>
+                        <p class="text-sm text-gray-600 mb-4">Check the boxes you want to generate QR codes for:</p>
+                    `;
+                    selectionContainer.appendChild(boxSelectionDiv);
+                    
+                    const generateMultipleBtn = document.createElement('button');
+                    generateMultipleBtn.type = 'button';
+                    generateMultipleBtn.className = 'mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition w-full';
+                    generateMultipleBtn.innerHTML = '<i class="fas fa-qrcode mr-2"></i> Generate Multiple QR Codes';
+                    selectionContainer.appendChild(generateMultipleBtn);
+                    
+                    // Add the selection div after the single QR result section
+                    const qrResultSection = document.getElementById('qrResult');
+                    qrResultSection.parentNode.insertBefore(selectionContainer, qrResultSection.nextSibling);
+                    
+                    // Generate multiple QR codes
+                    generateMultipleBtn.addEventListener('click', function() {
+                        const selectedBoxes = [];
+                        document.querySelectorAll('#boxSelectionDiv input[type="checkbox"]:checked').forEach(checkbox => {
+                            selectedBoxes.push(checkbox.value);
+                        });
+                        
+                        if (selectedBoxes.length === 0) {
+                            alert('Please select at least one box');
+                            return;
+                        }
+                        
+                        const location = document.getElementById('location').value;
+                        if (!location) {
+                            alert('Please enter a location');
+                            return;
+                        }
+                        
+                        // Clear previous results
+                        const multipleQrResults = document.getElementById('multipleQrResults') || document.createElement('div');
+                        multipleQrResults.id = 'multipleQrResults';
+                        multipleQrResults.className = 'mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-xl shadow-sm';
+                        multipleQrResults.innerHTML = '<h3 class="text-xl font-semibold text-blue-700 mb-4 col-span-full">Generated QR Codes</h3>';
+                        
+                        
+                        // Generate QR code for each selected box
+                        selectedBoxes.forEach((boxId, index) => {
+                            console.log(`Generating QR code for box ${boxId} (${index + 1}/${selectedBoxes.length})`);
+                            
+                            const qrContainer = document.createElement('div');
+                            qrContainer.className = 'bg-white p-4 rounded-lg shadow-md border border-gray-200 text-center qr-container qr-fade-in';
+                            qrContainer.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                        
+                            const qrTitle = document.createElement('h4');
+                            qrTitle.className = 'text-lg font-semibold text-blue-700 mb-2';
+                            qrTitle.textContent = boxId;
+                            
+                            const qrImgContainer = document.createElement('div');
+                            qrImgContainer.className = 'bg-white p-3 rounded-lg border border-gray-200 inline-block mb-3 qr-container';
+                            
+                            const qrImg = document.createElement('img');
+                            qrImg.className = 'mx-auto w-48 h-48 object-contain qr-image';
+                            qrImg.alt = `QR Code for ${boxId}`;
+                            
+                            qrImgContainer.appendChild(qrImg);
+                            
+                            const qrInfo = document.createElement('p');
+                            qrInfo.className = 'text-sm text-gray-600 mb-2';
+                            qrInfo.textContent = `Location: ${location}`;
+                            
+                            const downloadLink = document.createElement('a');
+                            downloadLink.className = 'mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition cursor-pointer';
+                            downloadLink.innerHTML = '<i class="fas fa-download mr-1"></i> Download';
+                            downloadLink.setAttribute('download', `qr-${boxId}.png`);
+                            
+                            qrContainer.appendChild(qrTitle);
+                            qrContainer.appendChild(qrImgContainer);
+                            qrContainer.appendChild(qrInfo);
+                            qrContainer.appendChild(downloadLink);
+                            
+                            multipleQrResults.appendChild(qrContainer);
+                            
+                            // Generate QR code
+                            fetch(`http://localhost:3000/api/qrcode?data=${encodeURIComponent(boxId)}`)
+                                .then(res => {
+                                    console.log(`QR code response for box ${boxId}: status ${res.status}`);
+                                    if (!res.ok) {
+                                        throw new Error(`HTTP error! Status: ${res.status}`);
+                                    }
+                                    return res.blob();
+                                })
+                                .then(blob => {
+                                    console.log(`QR code blob received for box ${boxId}, size: ${blob.size}`);
+                                    const url = URL.createObjectURL(blob);
+                                    qrImg.src = url;
+                                    qrImg.onload = function() {
+                                        console.log(`QR code image for box ${boxId} loaded successfully`);
+                                        // Add a subtle fade-in effect when image loads
+                                        qrImg.style.opacity = 0;
+                                        setTimeout(() => {
+                                            qrImg.style.transition = 'opacity 0.3s ease';
+                                            qrImg.style.opacity = 1;
+                                        }, 50);
+                                    };
+                                    downloadLink.href = url;
+                                })
+                                .catch(err => {
+                                    console.error(`Error generating QR code for box ${boxId}:`, err);
+                                    // Display a more user-friendly error message
+                                    const errorDiv = document.createElement('div');
+                                    errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4';
+                                    errorDiv.innerHTML = `<p><strong>Error:</strong> ${err.message}</p><p>Please try again or contact support.</p>`;
+                                    
+                                    // Clear the container and show error
+                                    qrContainer.innerHTML = '';
+                                    qrContainer.appendChild(qrTitle);
+                                    qrContainer.appendChild(errorDiv);
+                                    
+                                    // Disable download link
+                                    downloadLink.className = 'mt-2 inline-block bg-gray-400 text-white px-3 py-1 rounded text-sm cursor-not-allowed';
+                                    downloadLink.onclick = (e) => e.preventDefault();
+                                    qrContainer.appendChild(downloadLink);
+                                });
+                        });
+                        
+                        // Add to page - place below the single QR result section
+                    const singleQrResult = document.getElementById('qrResult');
+                    if (!document.getElementById('multipleQrResults')) {
+                        // Insert after the single QR result section
+                        if (singleQrResult.nextSibling) {
+                            singleQrResult.parentNode.insertBefore(multipleQrResults, singleQrResult.nextSibling);
+                        } else {
+                            singleQrResult.parentNode.appendChild(multipleQrResults);
+                        }
+                    }
+                    
+                    // Scroll to results
+                    multipleQrResults.scrollIntoView({ behavior: 'smooth' });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching boxes:', error);
+                    boxSelect.innerHTML = '<option value="">Error loading boxes</option>';
+                });
+            
+            // Handle form submission for single QR code
+            qrForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const boxId = boxSelect.value;
+                const location = document.getElementById('location').value;
+                
+                if (!boxId || !location) {
+                    alert('Please select a box and enter a location');
+                    return;
+                }
+                
+                // Generate QR code
+                console.log('Generating QR code for:', boxId);
+                fetch(`http://localhost:3000/api/qrcode?data=${encodeURIComponent(boxId)}`)
+                    .then(res => {
+                        console.log('QR code response status:', res.status);
+                        if (!res.ok) {
+                            throw new Error(`HTTP error! Status: ${res.status}`);
+                        }
+                        return res.blob();
+                    })
+                    .then(blob => {
+                        console.log('QR code blob received, size:', blob.size);
+                        const url = URL.createObjectURL(blob);
+                        const qrImage = document.getElementById('qrImage');
+                        qrImage.src = url;
+                        qrImage.onload = function() {
+                            console.log('QR code image loaded successfully');
+                            // Show result only after image is loaded
+                            qrResult.classList.remove('hidden');
+                            // Scroll to the result
+                            qrResult.scrollIntoView({ behavior: 'smooth' });
+                        };
+                        
+                        downloadBtn.href = url;
+                        downloadBtn.download = `qr-${boxId}.png`;
+                        
+                        // Update info
+                        boxIdSpan.textContent = boxId;
+                        boxLocationSpan.textContent = location;
+                    })
+                    .catch(err => {
+                        console.error('QR code generation error:', err);
+                        alert(`Error generating QR code: ${err.message}`);
+                        // Display error in the UI instead of just an alert
+                        qrResult.classList.remove('hidden');
+                        document.getElementById('qrImage').src = '';
+                        document.getElementById('qrImage').alt = 'QR Code generation failed';
+                        boxIdSpan.textContent = boxId;
+                        boxLocationSpan.textContent = location;
+                        // Add error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4';
+                        errorDiv.innerHTML = `<p><strong>Error:</strong> ${err.message}</p><p>Please try again or contact support.</p>`;
+                        qrResult.querySelector('.text-center').appendChild(errorDiv);
+                    });
+            });
+        });
+    </script>
+    
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+            <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+            <ul class="space-y-2">
+              <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+  
+              <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+              <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+            <ul class="space-y-2">
+              <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+              <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+              <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+              <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-envelope mr-2 text-yellow-200"></i>
+                <span class="text-blue-100">info@trackndrop.com</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone mr-2 text-yellow-200"></i>
+                <span class="text-blue-100">+91 6305351212</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-yellow-200"></i>
+                <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+          <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- AOS Init -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+    <script src="script.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
 </body>
-</html> 
+</html>

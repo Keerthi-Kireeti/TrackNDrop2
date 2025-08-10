@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common_styles.css">
+  <style>
+    .theme-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+      background-color: transparent;
+      color: #041E42;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="theme-container bg-white">
+    <h1 class="text-2xl font-bold mb-4 text-blue-800">Theme Test Page</h1>
+    <p class="mb-4 text-gray-700">This is a simple page to test the theme functionality.</p>
+    
+    <div class="flex items-center gap-4 mb-6">
+      <label class="inline-flex items-center gap-2">
+        <input type="radio" name="theme" value="light" class="text-blue-600" checked>
+        <span>Light</span>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <input type="radio" name="theme" value="dark" class="text-blue-600">
+        <span>Dark</span>
+      </label>
+    </div>
+    
+    <button id="themeToggle" class="theme-toggle-btn">
+      <i class="fas fa-moon"></i>
+    </button>
+    
+    <button id="applyTheme" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-4">
+      Apply Theme
+    </button>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Apply theme based on user preference
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+      
+      // Set the correct radio button based on current theme
+      const themeRadios = document.querySelectorAll('input[name="theme"]');
+      themeRadios.forEach(radio => {
+        if (radio.value === currentTheme) {
+          radio.checked = true;
+        }
+      });
+      
+      // Update theme toggle icon
+      const themeToggle = document.getElementById('themeToggle');
+      if (currentTheme === 'dark') {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+      
+      // Theme toggle button
+      themeToggle.addEventListener('click', function() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        this.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        
+        // Update radio buttons
+        themeRadios.forEach(radio => {
+          radio.checked = radio.value === (isDark ? 'dark' : 'light');
+        });
+      });
+      
+      // Apply theme button
+      const applyTheme = document.getElementById('applyTheme');
+      applyTheme.addEventListener('click', function() {
+        const selectedTheme = document.querySelector('input[name="theme"]:checked').value;
+        localStorage.setItem('theme', selectedTheme);
+        document.documentElement.classList.toggle('dark', selectedTheme === 'dark');
+        
+        // Update theme toggle icon
+        themeToggle.innerHTML = selectedTheme === 'dark' ? 
+          '<i class="fas fa-sun"></i>' : 
+          '<i class="fas fa-moon"></i>';
+        
+        alert('Theme applied: ' + selectedTheme);
+      });
+    });
+  </script>
+  <script src="floating-theme-toggle.js"></script>
+</body>
+</html>

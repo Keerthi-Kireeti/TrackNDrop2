@@ -1,81 +1,587 @@
-/* Walmart Color Scheme */
+/* Professional Color Scheme */
 .header-bg {
-    background: #0071DC; /* Walmart Blue */
+    background: #2563eb; /* Professional Blue */
 }
 
 .hero-bg {
-    background: #0071DC; /* Solid Walmart Blue */
+    background: #2563eb; /* Solid Professional Blue */
 }
 
 .footer-bg {
-    background: #0071DC; /* Walmart Blue */
+    background: #2563eb; /* Professional Blue */
 }
 
 /* Text Colors */
-.text-blue-800 { color: #004F9A; } /* Darker Walmart Blue */
-.text-blue-700 { color: #0066CC; }
-.text-blue-600 { color: #0071DC; } /* Main Walmart Blue */
-.text-blue-500 { color: #1A8CFF; }
-.text-blue-100 { color: #E6F2FF; }
+.text-blue-800 { color: #1e40af; } /* Darker Blue */
+.text-blue-700 { color: #1d4ed8; }
+.text-blue-600 { color: #2563eb; } /* Main Blue */
+.text-blue-500 { color: #3b82f6; }
+.text-blue-100 { color: #dbeafe; }
 
-.text-yellow-800 { color: #E6B800; }
-.text-yellow-700 { color: #FFC220; } /* Main Walmart Yellow */
-.text-yellow-600 { color: #FFCC00; }
-.text-yellow-500 { color: #FFD700; }
-.text-yellow-200 { color: #FFE680; }
-.text-yellow-100 { color: #FFF2B3; }
+.text-green-800 { color: #166534; }
+.text-green-700 { color: #15803d; } /* Main Green */
+.text-green-600 { color: #16a34a; }
+.text-green-500 { color: #22c55e; }
+.text-green-200 { color: #bbf7d0; }
+.text-green-100 { color: #dcfce7; }
 
 /* Backgrounds */
-.bg-blue-50 { background-color: #F0F7FF; }
-.bg-blue-100 { background-color: #E6F2FF; }
-.bg-blue-200 { background-color: #CCE5FF; }
+.bg-blue-50 { background-color: #eff6ff; }
+.bg-blue-100 { background-color: #dbeafe; }
+.bg-blue-200 { background-color: #bfdbfe; }
 
-.bg-yellow-50 { background-color: #FFF9E6; }
-.bg-yellow-100 { background-color: #FFF2B3; }
-.bg-yellow-200 { background-color: #FFE680; }
+.bg-green-50 { background-color: #f0fdf4; }
+.bg-green-100 { background-color: #dcfce7; }
+.bg-green-200 { background-color: #bbf7d0; }
 
 /* Alert Colors */
-.bg-green-50 { background-color: #E6FFE6; }
-.bg-green-100 { background-color: #CCFFCC; }
-.text-green-600 { color: #00B300; }
-.text-green-800 { color: #008000; }
+.bg-green-50 { background-color: #f0fdf4; }
+.bg-green-100 { background-color: #dcfce7; }
+.text-green-600 { color: #16a34a; }
+.text-green-800 { color: #166534; }
 
-.bg-red-50 { background-color: #FFE6E6; }
-.bg-red-100 { background-color: #FFCCCC; }
-.text-red-600 { color: #FF0000; }
-.text-red-800 { color: #CC0000; }
+.bg-red-50 { background-color: #fef2f2; }
+.bg-red-100 { background-color: #fee2e2; }
+.text-red-600 { color: #dc2626; }
+.text-red-800 { color: #991b1b; }
 
 /* Components */
 .box-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 113, 220, 0.2);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 .qr-scanner {
-    border: 2px dashed #0071DC;
+    border: 2px dashed #2563eb;
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { border-color: #0071DC; }
-    50% { border-color: #FFC220; }
-    100% { border-color: #0071DC; }
+    0% { border-color: #2563eb; }
+    50% { border-color: #16a34a; }
+    100% { border-color: #2563eb; }
 }
 
 /* Buttons */
 .btn-primary {
-    background-color: #FFC220;
-    color: #004F9A;
+    background-color: #2563eb;
+    color: white;
 }
 
 .btn-primary:hover {
-    background-color: #FFD700;
+    background-color: #1d4ed8;
 }
 
 .btn-secondary {
-    background-color: #0071DC;
+    background-color: #16a34a;
     color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #0066CC;
+    background-color: #15803d;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: #374151;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.theme-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: rotate(15deg);
+}
+
+html.dark .theme-toggle-btn {
+    color: #d1d5db; /* Light grey */
+}
+
+html.dark .theme-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Floating Theme Toggle Button */
+.floating-theme-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background-color: #2563eb; /* Professional Blue */
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.floating-theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+html.dark .floating-theme-toggle {
+    background-color: #2563eb; /* Keep original blue */
+    color: white;
+}
+
+html.dark .floating-theme-toggle:hover {
+    background-color: #1d4ed8; /* Darker blue on hover */
+}
+
+/* ===== DARK MODE - BLACK, GREY, LIGHT GREY ONLY ===== */
+
+/* Base dark theme */
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body {
+    background-color: #000000 !important; /* Pure black */
+    color: #d1d5db !important; /* Light grey */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navigation and header */
+html.dark nav,
+html.dark .bg-blue-900 {
+    background-color: #111111 !important; /* Very dark grey */
+    color: #d1d5db !important; /* Light grey */
+    border-bottom: 1px solid #333333 !important;
+}
+
+html.dark nav a,
+html.dark .bg-blue-900 a {
+    color: #d1d5db !important; /* Light grey */
+}
+
+html.dark nav a:hover,
+html.dark .bg-blue-900 a:hover {
+    color: #ffffff !important; /* White on hover */
+}
+
+/* Footer */
+html.dark footer,
+html.dark .bg-blue-900 {
+    background-color: #111111 !important; /* Very dark grey */
+    color: #d1d5db !important; /* Light grey */
+}
+
+/* Main content areas */
+html.dark .bg-white,
+html.dark .bg-gray-50,
+html.dark .bg-gray-100 {
+    background-color: #000000 !important; /* Pure black */
+}
+
+html.dark .bg-gray-200 {
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+/* Cards and panels */
+html.dark .bg-blue-50,
+html.dark .bg-blue-100,
+html.dark .bg-blue-200,
+html.dark .bg-green-50,
+html.dark .bg-green-100,
+html.dark .bg-green-200,
+html.dark .bg-yellow-50,
+html.dark .bg-yellow-100,
+html.dark .bg-yellow-200 {
+    background-color: #111111 !important; /* Very dark grey */
+    border: 1px solid #333333 !important; /* Grey border */
+}
+
+/* Text colors - PRESERVE ORIGINAL COLORS FOR STATS AND IMPORTANT TEXT */
+html.dark .text-blue-900,
+html.dark .text-blue-800,
+html.dark .text-blue-700,
+html.dark .text-blue-600,
+html.dark .text-blue-500 {
+    color: inherit !important; /* Keep original blue colors */
+}
+
+html.dark .text-green-800,
+html.dark .text-green-700,
+html.dark .text-green-600,
+html.dark .text-green-500 {
+    color: inherit !important; /* Keep original green colors */
+}
+
+/* Regular text colors - use light grey */
+html.dark .text-gray-700,
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+    color: #d1d5db !important; /* Light grey */
+}
+
+html.dark .text-gray-300,
+html.dark .text-gray-200 {
+    color: #9ca3af !important; /* Medium grey */
+}
+
+/* Headings */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+    color: #ffffff !important; /* White */
+}
+
+/* Form elements */
+html.dark input,
+html.dark select,
+html.dark textarea {
+    background-color: #111111 !important; /* Very dark grey */
+    color: #d1d5db !important; /* Light grey */
+    border: 1px solid #333333 !important; /* Grey border */
+    border-radius: 0.375rem !important;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+    border-color: #2563eb !important; /* Blue focus border */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25) !important;
+    outline: none !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+    color: #9ca3af !important; /* Medium grey */
+}
+
+/* Buttons - USE ORIGINAL COLORS */
+html.dark .btn-primary {
+    background-color: #2563eb !important; /* Original blue */
+    color: #ffffff !important; /* White */
+    border: 1px solid #1d4ed8 !important; /* Darker blue border */
+}
+
+html.dark .btn-primary:hover {
+    background-color: #1d4ed8 !important; /* Darker blue on hover */
+    border-color: #1e40af !important; /* Even darker blue border */
+}
+
+html.dark .btn-secondary {
+    background-color: #16a34a !important; /* Original green */
+    color: #ffffff !important; /* White */
+    border: 1px solid #15803d !important; /* Darker green border */
+}
+
+html.dark .btn-secondary:hover {
+    background-color: #15803d !important; /* Darker green on hover */
+    border-color: #166534 !important; /* Even darker green border */
+}
+
+/* Links */
+html.dark a {
+    color: #2563eb !important; /* Blue links */
+}
+
+html.dark a:hover {
+    color: #1d4ed8 !important; /* Darker blue on hover */
+}
+
+/* Tables */
+html.dark table {
+    background-color: #111111 !important; /* Very dark grey */
+    border-color: #333333 !important; /* Grey */
+}
+
+html.dark th {
+    background-color: #000000 !important; /* Pure black */
+    color: #ffffff !important; /* White */
+    border-color: #333333 !important; /* Grey */
+}
+
+html.dark td {
+    border-color: #333333 !important; /* Grey */
+    color: #d1d5db !important; /* Light grey */
+}
+
+html.dark tr:nth-child(even) {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+}
+
+html.dark tr:hover {
+    background-color: #1f2937 !important; /* Grey */
+}
+
+/* Cards and dashboard elements */
+html.dark .dashboard-card-blue,
+html.dark .dashboard-card-green,
+html.dark .dashboard-card-yellow {
+    background: linear-gradient(135deg, #111111 0%, #1f2937 100%) !important; /* Grey gradient */
+    border: 1px solid #333333 !important; /* Grey border */
+    color: #d1d5db !important; /* Light grey */
+}
+
+html.dark .dashboard-card-icon {
+    background-color: #333333 !important; /* Grey */
+    color: #d1d5db !important; /* Light grey */
+}
+
+/* QR Scanner */
+html.dark .qr-scanner {
+    border: 2px solid #2563eb !important; /* Blue border */
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+@keyframes dark-pulse {
+    0% { border-color: #2563eb; }
+    50% { border-color: #16a34a; }
+    100% { border-color: #2563eb; }
+}
+
+html.dark .qr-scanner {
+    animation: dark-pulse 2s infinite !important;
+}
+
+/* Alerts and notifications */
+html.dark .bg-green-50,
+html.dark .bg-green-100 {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+    border: 1px solid #333333 !important; /* Grey */
+}
+
+html.dark .bg-red-50,
+html.dark .bg-red-100 {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+    border: 1px solid #333333 !important; /* Grey */
+}
+
+/* Shadows and hover effects */
+html.dark .shadow,
+html.dark .shadow-lg,
+html.dark .shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .hover\:shadow-md:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Focus states for accessibility */
+html.dark a:focus,
+html.dark button:focus,
+html.dark [tabindex]:focus {
+    outline: 2px solid #2563eb !important; /* Blue focus outline */
+    outline-offset: 2px !important;
+}
+
+/* Scrollbar styling */
+html.dark ::-webkit-scrollbar {
+    width: 12px !important;
+}
+
+html.dark ::-webkit-scrollbar-track {
+    background: #000000 !important; /* Pure black */
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+    background-color: #333333 !important; /* Grey */
+    border-radius: 6px !important;
+    border: 3px solid #000000 !important; /* Pure black */
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #4b5563 !important; /* Darker grey */
+}
+
+/* Modal and overlay backgrounds */
+html.dark .bg-black\/60 {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Radio buttons and checkboxes */
+html.dark input[type="radio"],
+html.dark input[type="checkbox"] {
+    accent-color: #2563eb !important; /* Blue accent */
+}
+
+/* Charts and graphs */
+html.dark canvas {
+    filter: invert(1) hue-rotate(180deg) brightness(0.8) !important;
+}
+
+/* Loading states */
+html.dark .animate-spin {
+    border-color: #333333 !important; /* Grey */
+    border-top-color: #2563eb !important; /* Blue */
+}
+
+/* Success/error states - PRESERVE ORIGINAL COLORS */
+html.dark .text-green-600,
+html.dark .text-green-800 {
+    color: inherit !important; /* Keep original green colors */
+}
+
+html.dark .text-red-600,
+html.dark .text-red-800 {
+    color: inherit !important; /* Keep original red colors */
+}
+
+/* Icons */
+html.dark .fas,
+html.dark .far,
+html.dark .fab {
+    color: #d1d5db !important; /* Light grey */
+}
+
+html.dark .text-yellow-400 {
+    color: #facc15 !important; /* Original yellow */
+}
+
+/* Hero sections */
+html.dark .hero-gradient {
+    background: linear-gradient(-45deg, #000000, #111111, #1a1a1a, #111111) !important;
+    background-size: 400% 400% !important;
+    animation: gradientShift 15s ease infinite !important;
+}
+
+/* Ensure all text is readable */
+html.dark * {
+    text-shadow: none !important;
+}
+
+/* Override any remaining colored backgrounds */
+html.dark [class*="bg-"] {
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+/* Special handling for specific elements that might need different styling */
+html.dark .bg-white {
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+html.dark .text-white {
+    color: #ffffff !important; /* White */
+}
+
+html.dark .text-black {
+    color: #d1d5db !important; /* Light grey */
+}
+
+/* Additional specific overrides for common elements */
+html.dark .bg-blue-800 {
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+/* USE ORIGINAL COLORS FOR YELLOW ELEMENTS */
+html.dark .bg-yellow-500,
+html.dark .bg-yellow-400 {
+    background-color: #facc15 !important; /* Original yellow */
+    color: #000000 !important; /* Black text for contrast */
+}
+
+html.dark .bg-yellow-100 {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+}
+
+/* PRESERVE YELLOW TEXT COLORS FOR STATS */
+html.dark .text-yellow-800,
+html.dark .text-yellow-700,
+html.dark .text-yellow-600 {
+    color: inherit !important; /* Keep original yellow colors */
+}
+
+/* Box cards and similar elements */
+html.dark .box-card {
+    background-color: #111111 !important; /* Very dark grey */
+    border: 1px solid #333333 !important; /* Grey */
+}
+
+html.dark .box-card:hover {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Search inputs and form elements */
+html.dark input[type="text"],
+html.dark input[type="password"],
+html.dark input[type="email"],
+html.dark input[type="search"] {
+    background-color: #111111 !important; /* Very dark grey */
+    color: #d1d5db !important; /* Light grey */
+    border: 1px solid #333333 !important; /* Grey */
+}
+
+/* Status badges and labels */
+html.dark .bg-yellow-100,
+html.dark .bg-green-100,
+html.dark .bg-red-100,
+html.dark .bg-blue-100 {
+    background-color: #1a1a1a !important; /* Slightly lighter than pure black */
+    color: #9ca3af !important; /* Medium grey */
+}
+
+/* Progress bars and similar elements */
+html.dark .bg-gray-300 {
+    background-color: #333333 !important; /* Grey */
+}
+
+html.dark .bg-blue-600 {
+    background-color: #2563eb !important; /* Original blue */
+}
+
+/* Ensure all interactive elements are properly styled with original colors */
+html.dark button:not(.btn-primary):not(.btn-secondary) {
+    background-color: #2563eb !important; /* Blue */
+    color: #ffffff !important; /* White */
+    border: 1px solid #1d4ed8 !important; /* Darker blue border */
+}
+
+html.dark button:not(.btn-primary):not(.btn-secondary):hover {
+    background-color: #1d4ed8 !important; /* Darker blue on hover */
+}
+
+/* Handle any remaining colored elements */
+html.dark [style*="background-color"] {
+    background-color: #111111 !important; /* Very dark grey */
+}
+
+/* PRESERVE TEXT COLORS FOR STATS AND IMPORTANT INFORMATION */
+html.dark [style*="color"] {
+    /* Don't override colors - let them inherit from their classes */
+}
+
+/* Specific overrides for dashboard stats to preserve colors */
+html.dark #totalBoxes,
+html.dark #activeBoxes,
+html.dark #needsInspection,
+html.dark #endOfLife,
+html.dark .text-2xl.font-bold {
+    color: inherit !important; /* Preserve original colors */
+}
+
+/* Preserve colors for any elements with specific color classes */
+html.dark .text-blue-800,
+html.dark .text-blue-700,
+html.dark .text-blue-600,
+html.dark .text-green-800,
+html.dark .text-green-700,
+html.dark .text-green-600,
+html.dark .text-yellow-800,
+html.dark .text-yellow-700,
+html.dark .text-yellow-600 {
+    color: inherit !important; /* Keep original colors */
 }

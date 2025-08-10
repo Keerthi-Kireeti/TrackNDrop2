@@ -4,13 +4,22 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const QRCode = require('qrcode');
+const bcrypt = require('bcrypt');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = 3000;
+const ADMIN_SIGNUP_CODE = process.env.ADMIN_SIGNUP_CODE || 'ADMIN-INVITE-2025';
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(helmet());
+
+// Rate limit auth endpoints
+const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 50, standardHeaders: true, legacyHeaders: false });
+app.use('/api/auth', authLimiter);
 
 // SQLite DB setup
 const dbPath = path.join(__dirname, 'trackndrop.db');
@@ -72,8 +81,10 @@ db.serialize(() => {
     value TEXT
   )`);
 
-  // Insert sample data
+  // Insert sample data (will be transparently supported even after enabling hashing)
   db.run(`INSERT OR IGNORE INTO users (username, password, user_type) VALUES ('admin', 'admin123', 'admin')`);
+  db.run(`INSERT OR IGNORE INTO users (username, password, user_type) VALUES ('user1', 'user123', 'user')`);
+  db.run(`INSERT OR IGNORE INTO users (username, password, user_type) VALUES ('dex1', 'dex123', 'delivery_executive')`);
   db.run(`INSERT OR IGNORE INTO boxes (box_id, type, cycle_count, location, last_used, manufacture_date, status) VALUES 
     ('BX-4892-75', 'Plastic Container', 147, 'Warehouse A', '2023-10-26', '2022-03-15', 'needs_inspection'),
     ('BX-3021-43', 'Metal Crate', 200, 'Dispatch Area', '2023-10-30', '2021-08-20', 'retired'),
@@ -98,21 +109,65 @@ db.serialize(() => {
     ('wooden_max_cycles', '100')`);
 });
 
-// --- Authentication Endpoint ---
+// --- Authentication Endpoints ---
+// Signup: hash password and store
+app.post('/api/auth/signup', async (req, res) => {
+  try {
+    const { username, password, user_type, admin_invite_code } = req.body;
+    const roleAllowed = new Set(['user', 'delivery_executive', 'admin']);
+    if (!username || !password || !user_type || !roleAllowed.has(user_type)) {
+      return res.status(400).json({ error: 'Invalid input' });
+    }
+    if (typeof username !== 'string' || typeof password !== 'string' || username.length < 3 || password.length < 6) {
+      return res.status(400).json({ error: 'Username or password too short' });
+    }
+    // Require invite code for admin registrations
+    if (user_type === 'admin') {
+      if (!admin_invite_code || admin_invite_code !== ADMIN_SIGNUP_CODE) {
+        return res.status(403).json({ error: 'Admin invite code is invalid' });
+      }
+    }
+    // Check if exists
+    db.get('SELECT id FROM users WHERE username = ?', [username], async (err, row) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      if (row) return res.status(409).json({ error: 'Username already taken' });
+      const hash = await bcrypt.hash(password, 10);
+      db.run('INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)', [username, hash, user_type], function (err2) {
+        if (err2) return res.status(500).json({ error: 'DB error' });
+        res.json({ message: 'Signup successful' });
+      });
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Login: verify hashed or legacy plain (for existing seeded users)
 app.post('/api/auth/login', (req, res) => {
   const { username, password, user_type } = req.body;
-  if (!username || !password || !user_type) {
+  const allowed = new Set(['user', 'admin', 'delivery_executive']);
+  if (!username || !password || !user_type || !allowed.has(user_type)) {
     return res.status(400).json({ error: 'Missing credentials' });
   }
-  db.get(
-    'SELECT * FROM users WHERE username = ? AND password = ? AND user_type = ?',
-    [username, password, user_type],
-    (err, user) => {
-      if (err) return res.status(500).json({ error: 'DB error' });
-      if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+  db.get('SELECT * FROM users WHERE username = ? AND user_type = ?', [username, user_type], async (err, user) => {
+    if (err) return res.status(500).json({ error: 'DB error' });
+    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+    try {
+      let valid = false;
+      // First try bcrypt compare (for hashed users)
+      const maybeHash = user.password || '';
+      if (maybeHash.startsWith('$2')) {
+        valid = await bcrypt.compare(password, maybeHash);
+      } else {
+        // Legacy plain-text support (seeded sample users)
+        valid = password === user.password;
+      }
+      if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
       res.json({ message: 'Login successful', user: { id: user.id, username: user.username, user_type: user.user_type } });
+    } catch (e) {
+      res.status(500).json({ error: 'Server error' });
     }
-  );
+  });
 });
 
 // Health check
@@ -123,10 +178,19 @@ app.get('/api/health', (req, res) => {
 // --- Boxes Endpoints ---
 // List all boxes
 app.get('/api/boxes', (req, res) => {
-  db.all('SELECT * FROM boxes', [], (err, rows) => {
-    if (err) return res.status(500).json({ error: 'DB error' });
-    res.json(rows);
-  });
+  const limit = Math.min(parseInt(req.query.limit, 10) || 0, 1000);
+  const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+  if (limit > 0) {
+    db.all('SELECT * FROM boxes LIMIT ? OFFSET ?', [limit, offset], (err, rows) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      res.json(rows);
+    });
+  } else {
+    db.all('SELECT * FROM boxes', [], (err, rows) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      res.json(rows);
+    });
+  }
 });
 
 // Add a new box
@@ -285,6 +349,30 @@ app.post('/api/settings', (req, res) => {
   );
 });
 
+// Reset settings to defaults
+app.post('/api/settings/reset', (req, res) => {
+  const defaults = [
+    ['email_notifications', 'true'],
+    ['sms_notifications', 'false'],
+    ['in_app_notifications', 'true'],
+    ['plastic_max_cycles', '100'],
+    ['metal_max_cycles', '100'],
+    ['wooden_max_cycles', '100'],
+    ['plastic_inspection_threshold', '90'],
+    ['metal_inspection_threshold', '90'],
+    ['wooden_inspection_threshold', '90'],
+    ['theme', 'light']
+  ];
+  const stmt = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+  db.serialize(() => {
+    defaults.forEach(([k, v]) => stmt.run([k, v]));
+    stmt.finalize((err) => {
+      if (err) return res.status(500).json({ error: 'DB error' });
+      res.json({ message: 'Settings reset to defaults' });
+    });
+  });
+});
+
 // --- Dashboard Stats Endpoint ---
 app.get('/api/dashboard/stats', (req, res) => {
   const stats = {};
@@ -312,7 +400,8 @@ app.get('/api/dashboard/stats', (req, res) => {
   });
 });
 
-// --- QR Code Generation Endpoint ---
+// --- QR Code Generation Endpoints ---
+// Legacy endpoint for box-specific QR generation
 app.post('/api/boxes/:id/generate-qr', (req, res) => {
   const { location } = req.body; // location entered manually
   db.get('SELECT * FROM boxes WHERE id = ?', [req.params.id], (err, box) => {
@@ -330,6 +419,48 @@ app.post('/api/boxes/:id/generate-qr', (req, res) => {
       if (err) return res.status(500).json({ error: 'QR generation failed' });
       res.json({ qr: url, data: qrData });
     });
+  });
+});
+
+// Direct QR code generation endpoint for any data
+app.get('/api/qrcode', (req, res) => {
+  const { data } = req.query;
+  
+  if (!data) {
+    return res.status(400).json({ error: 'Missing data parameter' });
+  }
+  
+  console.log('Generating QR code for data:', data);
+  
+  // Generate QR code as PNG image
+  // Using toDataURL instead of toBuffer for better compatibility
+  QRCode.toDataURL(data, { 
+    errorCorrectionLevel: 'H',
+    margin: 1,
+    width: 300,
+    color: {
+      dark: '#000000',
+      light: '#ffffff'
+    }
+  }, (err, dataUrl) => {
+    if (err) {
+      console.error('QR generation error:', err);
+      return res.status(500).json({ error: 'QR generation failed' });
+    }
+    
+    // Convert data URL to buffer
+    try {
+      // Remove the data URL prefix (e.g., 'data:image/png;base64,')
+      const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+      const buffer = Buffer.from(base64Data, 'base64');
+      
+      res.set('Content-Type', 'image/png');
+      res.send(buffer);
+      console.log('QR code generated and sent successfully');
+    } catch (conversionError) {
+      console.error('Error converting data URL to buffer:', conversionError);
+      return res.status(500).json({ error: 'QR image processing failed' });
+    }
   });
 });
 

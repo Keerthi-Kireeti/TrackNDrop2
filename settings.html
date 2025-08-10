@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="common_styles.css">
 </head>
- <style>
+     <style>
     @keyframes bounce-slow {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
@@ -17,34 +17,66 @@
     .animate-bounce-slow {
       animation: bounce-slow 2s infinite;
     }
+    
+    /* Button animations */
+    .scale-105 {
+      transform: scale(1.05);
+    }
+    
+    .animate-pulse {
+      animation: pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* Notification animations */
+    .opacity-0 {
+      opacity: 0;
+    }
+    
+    .translate-y-2 {
+      transform: translateY(8px);
+    }
   </style>
 <body class="bg-gray-50">
     <!-- Navigation -->
   <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
-        <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
       </div>
-      <div class="hidden md:flex space-x-6">
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
         <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
         <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
-        <a href="scan.html" class="text-yellow-400 hover:text-white transition duration-200">Scan</a>
         <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
-        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
         <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
         <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
-        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
       </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
     </div>
   </nav>
 
     <!-- Settings Section -->
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-white" data-aos="fade-up">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">System Settings</h2>
             
-            <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-xl shadow-sm">
+            <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-xl shadow-sm" id="settings">
                 <h3 class="text-xl font-semibold mb-6 text-blue-700">Lifecycle Thresholds</h3>
                 
                 <div class="overflow-x-auto">
@@ -70,14 +102,14 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="150" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="plastic_max_cycles">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="140" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="plastic_inspection_threshold">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <button class="text-blue-600 hover:text-blue-800 mr-3">Save</button>
-                                    <button class="text-gray-500 hover:text-gray-700">Reset</button>
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="plastic">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="plastic">Reset</button>
                                 </td>
                             </tr>
                             <tr>
@@ -92,14 +124,14 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="200" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="metal_max_cycles">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="190" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="metal_inspection_threshold">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <button class="text-blue-600 hover:text-blue-800 mr-3">Save</button>
-                                    <button class="text-gray-500 hover:text-gray-700">Reset</button>
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="metal">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="metal">Reset</button>
                                 </td>
                             </tr>
                             <tr>
@@ -114,14 +146,14 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="100" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="wooden_max_cycles">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <input type="number" value="90" class="w-20 px-2 py-1 border border-gray-300 rounded">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="wooden_inspection_threshold">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <button class="text-blue-600 hover:text-blue-800 mr-3">Save</button>
-                                    <button class="text-gray-500 hover:text-gray-700">Reset</button>
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="wooden">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="wooden">Reset</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -164,10 +196,11 @@
                     </div>
                 </div>
                 
-                <div class="mt-8 flex justify-end">
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Save Settings
-                    </button>
+                <!-- Theme section removed as requested -->
+
+                <div class="mt-8 flex justify-between">
+                    <button id="resetSettingsBtn" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">Reset to Defaults</button>
+                    <button id="saveAllSettingsBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Save Settings</button>
                 </div>
             </div>
         </div>
@@ -183,19 +216,19 @@
         <div>
           <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">QR Scanning</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Documentation</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">API Reference</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Support</a></li>
-            <li><a href="#" class="text-blue-100 hover:text-yellow-300 transition">Community</a></li>
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
           </ul>
         </div>
         <div>
@@ -221,6 +254,12 @@
       </div>
     </div>
   </footer>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
     <script src="script.js"></script>
+    <script src="settings.js"></script>
+    <script src="theme-fix.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
 </body>
 </html>
