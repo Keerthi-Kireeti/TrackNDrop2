@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackNDrop - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-box-open text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+                </a>
+            </div>
+            <!-- Profile Icon and Navigation Options -->
+            <div class="flex items-center space-x-6">
+                <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+                <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+                <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+                <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+                <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+                <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+                <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+                <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </a>
+            </div>
+            
+            <button class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Profile</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <!-- Profile Header -->
+                <div class="bg-blue-600 rounded-lg p-6 text-white mb-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold" id="userName">Loading...</h3>
+                            <p class="text-blue-100" id="userEmail">Loading...</p>
+                            <p class="text-blue-100" id="userRole">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="bg-white rounded-lg shadow border p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Personal Information</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="fullName" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input type="tel" id="phone" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                            <input type="text" id="department" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                            <input type="text" id="role" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-50" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mt-6">
+                    <button id="editProfileBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
+                        Edit Profile
+                    </button>
+                    <button id="saveChangesBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200 hidden">
+                        Save
+                    </button>
+                    <button id="cancelEditBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200 hidden">
+                        Cancel
+                    </button>
+                    <button id="changePasswordBtn" class="bg-yellow-500 text-blue-900 px-4 py-2 rounded hover:bg-yellow-400 transition duration-200">
+                        Change Password
+                    </button>
+                    <button id="logoutBtn" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-200">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Change Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800">Change Password</h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                    <input type="password" id="currentPassword" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <input type="password" id="newPassword" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button id="updatePasswordBtn" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
+                    Update Password
+                </button>
+                <button id="closePasswordModal" class="flex-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="role-access.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const userString = localStorage.getItem('user');
+            if (!userString) {
+                // Redirect to login if no user is logged in
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userString);
+                if (!user.email) {
+                    // Invalid user data, redirect to login
+                    window.location.href = 'login.html';
+                    return;
+                }
+                populateProfile(user);
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                // Invalid user data, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Event listeners
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            const saveChangesBtn = document.getElementById('saveChangesBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const passwordModal = document.getElementById('passwordModal');
+            const closePasswordModal = document.getElementById('closePasswordModal');
+            const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', enableEditing);
+            }
+
+            if (saveChangesBtn) {
+                saveChangesBtn.addEventListener('click', saveChanges);
+            }
+
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', cancelEditing);
+            }
+
+            if (changePasswordBtn) {
+                changePasswordBtn.addEventListener('click', openPasswordModal);
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logout);
+            }
+
+            if (closePasswordModal) {
+                closePasswordModal.addEventListener('click', closePasswordModalFunc);
+            }
+
+            if (updatePasswordBtn) {
+                updatePasswordBtn.addEventListener('click', updatePassword);
+            }
+
+            // Close modal when clicking outside
+            passwordModal.addEventListener('click', function(e) {
+                if (e.target === passwordModal) {
+                    closePasswordModalFunc();
+                }
+            });
+
+            function populateProfile(user) {
+                document.getElementById('userName').textContent = user.name || 'User Name';
+                document.getElementById('userEmail').textContent = user.email || 'user@example.com';
+                document.getElementById('userRole').textContent = user.user_type || 'User';
+                
+                document.getElementById('fullName').value = user.name || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('phone').value = user.phone || '';
+                document.getElementById('department').value = user.department || '';
+                document.getElementById('role').value = user.user_type || 'User';
+            }
+
+            function enableEditing() {
+                const inputs = ['fullName', 'phone', 'department'];
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) input.disabled = false;
+                });
+
+                editProfileBtn.classList.add('hidden');
+                saveChangesBtn.classList.remove('hidden');
+                cancelEditBtn.classList.remove('hidden');
+            }
+
+            function cancelEditing() {
+                const inputs = ['fullName', 'phone', 'department'];
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) input.disabled = true;
+                });
+
+                editProfileBtn.classList.remove('hidden');
+                saveChangesBtn.classList.add('hidden');
+                cancelEditBtn.classList.add('hidden');
+
+                // Reset to original values
+                const userString = localStorage.getItem('user');
+                if (userString) {
+                    const user = JSON.parse(userString);
+                    populateProfile(user);
+                }
+            }
+
+            function saveChanges() {
+                // Here you would typically send the data to your backend
+                const updatedData = {
+                    name: document.getElementById('fullName').value,
+                    phone: document.getElementById('phone').value,
+                    department: document.getElementById('department').value
+                };
+
+                // Update localStorage (in a real app, you'd update the backend)
+                const userString = localStorage.getItem('user');
+                if (userString) {
+                    const user = JSON.parse(userString);
+                    const updatedUser = { ...user, ...updatedData };
+                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                }
+
+                // Show success message
+                alert('Profile updated successfully!');
+
+                // Disable editing
+                cancelEditing();
+            }
+
+            function openPasswordModal() {
+                passwordModal.classList.remove('hidden');
+                passwordModal.classList.add('flex');
+            }
+
+            function closePasswordModalFunc() {
+                passwordModal.classList.add('hidden');
+                passwordModal.classList.remove('flex');
+                
+                // Clear password fields
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            }
+
+            function updatePassword() {
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    alert('Please fill in all password fields');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    alert('New password must be at least 6 characters long');
+                    return;
+                }
+
+                // Here you would typically send the password change request to your backend
+                alert('Password updated successfully!');
+                closePasswordModalFunc();
+            }
+
+            function logout() {
+                // Clear user data from localStorage
+                localStorage.removeItem('user');
+                // Redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

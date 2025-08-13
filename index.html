@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>TrackNDrop - Smart Monitoring for Returnable Packing</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- AOS Animations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+  <!-- Common Styles (includes dark theme overrides) -->
+  <link rel="stylesheet" href="common_styles.css" />
+
+  <!-- Theme Initialization Script - Prevents theme flashing -->
+  <script>
+    // Immediately apply theme to prevent flashing
+    (function() {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      if (currentTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <!-- Custom Animation Style -->
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animated-gradient {
+      background: linear-gradient(270deg, #1E3A8A, #0EA5E9, #F59E0B);
+      background-size: 600% 600%;
+      animation: gradientShift 18s ease infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
+      </div>
+
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="animated-gradient text-white py-16" data-aos="zoom-in">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up" data-aos-delay="100">Smart Monitoring System</h1>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-6" data-aos="fade-up" data-aos-delay="200">For Returnable Packing Box Lifecycle</h2>
+      <p class="text-xl max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="300">
+        Track, monitor, and optimize your returnable packing boxes with our intelligent lifecycle management system.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="400">
+        <a href="login.html" class="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition duration-200">
+          <i class="fas fa-sign-in-alt mr-2"></i> Get Started
+        </a>
+        <a href="#features" class="inline-flex items-center text-white/90 hover:text-white transition" aria-label="Scroll to features">
+          <span class="mr-2">Learn more</span>
+          <i class="fas fa-arrow-down animate-bounce-slow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-800" data-aos="fade-up">Powerful features, simple to use</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition transform hover:-translate-y-1" data-aos="zoom-in" data-aos-delay="50">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 mb-4">
+            <i class="fas fa-box"></i>
+          </div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Lifecycle Tracking</h4>
+          <p class="text-blue-700/80">Monitor every box from check-out to check-in with full history.</p>
+        </div>
+        <div class="bg-yellow-50 rounded-xl p-6 shadow-sm hover:shadow-md transition transform hover:-translate-y-1" data-aos="zoom-in" data-aos-delay="150">
+          <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-700 mb-4">
+            <i class="fas fa-qrcode"></i>
+          </div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">QR Scan & Generate</h4>
+          <p class="text-blue-700/80">Fast scanning and secure QR generation for each package.</p>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-md transition transform hover:-translate-y-1" data-aos="zoom-in" data-aos-delay="250">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 mb-4">
+            <i class="fas fa-bell"></i>
+          </div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Smart Alerts</h4>
+          <p class="text-blue-700/80">Get notified for inspections, end-of-life, and anomalies.</p>
+        </div>
+        <div class="bg-yellow-50 rounded-xl p-6 shadow-sm hover:shadow-md transition transform hover:-translate-y-1" data-aos="zoom-in" data-aos-delay="350">
+          <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-700 mb-4">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Dashboards</h4>
+          <p class="text-blue-700/80">Visualize usage, turnover trends, and asset health at a glance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-800" data-aos="fade-up">How it works</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center bg-white rounded-xl p-8 border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-12 h-12 mx-auto rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mb-4">1</div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Scan & Identify</h4>
+          <p class="text-blue-700/80">Use the built-in QR scanner to identify and load box details instantly.</p>
+        </div>
+        <div class="text-center bg-white rounded-xl p-8 border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-12 h-12 mx-auto rounded-full bg-yellow-100 text-yellow-700 flex items-center justify-center mb-4">2</div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Track & Update</h4>
+          <p class="text-blue-700/80">Update status, location, and lifecycle events securely in real time.</p>
+        </div>
+        <div class="text-center bg-white rounded-xl p-8 border border-gray-100 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+          <div class="w-12 h-12 mx-auto rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mb-4">3</div>
+          <h4 class="text-lg font-semibold text-blue-900 mb-2">Analyze & Act</h4>
+          <p class="text-blue-700/80">Use dashboards and alerts to optimize operations and reduce losses.</p>
+        </div>
+      </div>
+      <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="350">
+        <a href="login.html" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+          Start now <i class="fas fa-arrow-right ml-3"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS Animation Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,
+      duration: 800,
+      offset: 100
+    });
+  </script>
+
+  <!-- Custom Script -->
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+</body>
+</html>

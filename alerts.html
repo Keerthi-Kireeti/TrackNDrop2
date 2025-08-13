@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackNDrop - Alerts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+</head>
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation (Common to all pages) -->
+    <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
+      </div>
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+<body class="bg-gray-50">
+
+    <!-- Alerts Section -->
+    <section id="alerts" class="py-12 bg-gray-50" data-aos="fade-up">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">Alerts & Notifications</h2>
+            
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200">
+                    <button class="alert-tab py-4 px-6 font-medium text-center border-b-2 border-blue-500 text-blue-600" data-tab="all">All Alerts</button>
+                    <button class="alert-tab py-4 px-6 font-medium text-center text-gray-500 hover:text-gray-700" data-tab="inspection">Needs Inspection</button>
+                    <button class="alert-tab py-4 px-6 font-medium text-center text-gray-500 hover:text-gray-700" data-tab="eol">End of Life</button>
+                </div>
+                
+                <div id="all-alerts" class="alert-content p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start p-4 rounded-lg border border-yellow-200 bg-yellow-50">
+                            <div class="mr-4 text-yellow-600">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-4892-75 approaching cycle limit</h4>
+                                <p class="text-sm text-gray-600">Plastic container has reached 147 of 150 allowed cycles. Please inspect before next use.</p>
+                                <div class="mt-2 text-sm text-gray-500">2 hours ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start p-4 rounded-lg border border-red-200 bg-red-50">
+                            <div class="mr-4 text-red-600">
+                                <i class="fas fa-times-circle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-3021-43 reached end of life</h4>
+                                <p class="text-sm text-gray-600">Metal crate has completed 200 cycles. Please retire and replace this box.</p>
+                                <div class="mt-2 text-sm text-gray-500">1 day ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start p-4 rounded-lg border border-yellow-200 bg-yellow-50">
+                            <div class="mr-4 text-yellow-600">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-5567-12 needs inspection</h4>
+                                <p class="text-sm text-gray-600">Wooden pallet has damage reported during last use. Please inspect before next dispatch.</p>
+                                <div class="mt-2 text-sm text-gray-500">3 days ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start p-4 rounded-lg border border-blue-200 bg-blue-50">
+                            <div class="mr-4 text-blue-600">
+                                <i class="fas fa-info-circle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Maintenance completed on BX-9901-56</h4>
+                                <p class="text-sm text-gray-600">Wooden pallet has been repaired and is ready for use. Reset cycle count to 0.</p>
+                                <div class="mt-2 text-sm text-gray-500">1 week ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 font-medium">
+                            View All Alerts
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="inspection-alerts" class="alert-content hidden p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start p-4 rounded-lg border border-yellow-200 bg-yellow-50">
+                            <div class="mr-4 text-yellow-600">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-4892-75 approaching cycle limit</h4>
+                                <p class="text-sm text-gray-600">Plastic container has reached 147 of 150 allowed cycles. Please inspect before next use.</p>
+                                <div class="mt-2 text-sm text-gray-500">2 hours ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start p-4 rounded-lg border border-yellow-200 bg-yellow-50">
+                            <div class="mr-4 text-yellow-600">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-5567-12 needs inspection</h4>
+                                <p class="text-sm text-gray-600">Wooden pallet has damage reported during last use. Please inspect before next dispatch.</p>
+                                <div class="mt-2 text-sm text-gray-500">3 days ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 font-medium">
+                            View All Inspection Alerts
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="eol-alerts" class="alert-content hidden p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start p-4 rounded-lg border border-red-200 bg-red-50">
+                            <div class="mr-4 text-red-600">
+                                <i class="fas fa-times-circle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-3021-43 reached end of life</h4>
+                                <p class="text-sm text-gray-600">Metal crate has completed 200 cycles. Please retire and replace this box.</p>
+                                <div class="mt-2 text-sm text-gray-500">1 day ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600 close-notification">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start p-4 rounded-lg border border-red-200 bg-red-50">
+                            <div class="mr-4 text-red-600">
+                                <i class="fas fa-times-circle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium mb-1 text-blue-800">Box BX-4012-88 reached end of life</h4>
+                                <p class="text-sm text-gray-600">Plastic container has completed 150 cycles. Please retire and replace this box.</p>
+                                <div class="mt-2 text-sm text-gray-500">5 days ago</div>
+                            </div>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button class="text-blue-600 hover:text-blue-800 font-medium">
+                            View All EOL Alerts
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Common to all pages) -->
+    <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+    <script src="script.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
+    <script src="alerts.js"></script>
+</body>
+</html>

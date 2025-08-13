@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackNDrop - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+</head>
+     <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+    
+    /* Button animations */
+    .scale-105 {
+      transform: scale(1.05);
+    }
+    
+    .animate-pulse {
+      animation: pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* Notification animations */
+    .opacity-0 {
+      opacity: 0;
+    }
+    
+    .translate-y-2 {
+      transform: translateY(8px);
+    }
+  </style>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
+      </div>
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+    <!-- Settings Section -->
+    <section class="py-12 bg-white" data-aos="fade-up">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-blue-800">System Settings</h2>
+            
+            <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-xl shadow-sm" id="settings">
+                <h3 class="text-xl font-semibold mb-6 text-blue-700">Lifecycle Thresholds</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Material Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Max Cycles</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Inspection Threshold</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-box text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-blue-900">Plastic Container</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="plastic_max_cycles">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="plastic_inspection_threshold">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="plastic">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="plastic">Reset</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-box text-yellow-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-blue-900">Metal Crate</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="metal_max_cycles">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="metal_inspection_threshold">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="metal">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="metal">Reset</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-box text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-blue-900">Wooden Pallet</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="100" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="wooden_max_cycles">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="number" value="90" max="100" class="w-24 px-2 py-1 border border-gray-300 rounded" data-setting-key="wooden_inspection_threshold">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-800 mr-3" data-action="save" data-type="wooden">Save</button>
+                                    <button class="text-gray-500 hover:text-gray-700" data-action="reset" data-type="wooden">Reset</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Notification Settings</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-blue-800">Email Notifications</p>
+                                <p class="text-sm text-gray-500">Receive alerts via email</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-blue-800">SMS Notifications</p>
+                                <p class="text-sm text-gray-500">Receive critical alerts via SMS</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-blue-800">In-App Notifications</p>
+                                <p class="text-sm text-gray-500">Show alerts in the application</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Theme section removed as requested -->
+
+                <div class="mt-8 flex justify-between">
+                    <button id="resetSettingsBtn" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">Reset to Defaults</button>
+                    <button id="saveAllSettingsBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+    <script src="script.js"></script>
+    <script src="settings.js"></script>
+    <script src="theme-fix.js"></script>
+    <script src="floating-theme-toggle.js"></script>
+    <script src="role-access.js"></script>
+</body>
+</html>

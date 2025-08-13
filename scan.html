@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop - QR Scanner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="common_styles.css" />
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
+      </div>
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- QR Scanner Section -->
+  <section id="scan" class="py-16 bg-white" data-aos="zoom-in">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-blue-900 mb-6" data-aos="fade-up">QR Code Scanner</h2>
+
+      <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-400" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center justify-center">
+            <i class="fas fa-qrcode text-yellow-400 mr-2 text-2xl"></i> QR Scanner
+          </h3>
+          <!-- NEW VERSION -->
+          <div class="mx-auto w-64 h-64 sm:w-72 sm:h-72 mb-4 rounded-lg border-2 border-yellow-400 overflow-hidden shadow-lg relative" id="reader-container">
+            <div class="absolute inset-0 flex items-center justify-center bg-blue-900 bg-opacity-80 z-10 scanner-overlay">
+              <div class="text-center text-white p-4">
+                <i class="fas fa-camera text-4xl text-yellow-400 mb-2"></i>
+                <p class="font-medium">Click 'Start Scanner' to begin</p>
+              </div>
+            </div>
+            <div id="reader" class="w-full h-full"></div>
+          </div>
+          <p id="resultMsg" class="text-blue-900 font-semibold bg-blue-50 py-2 px-4 rounded-lg inline-block"></p>
+
+          <p class="text-gray-600 my-4">Scan the QR code on a returnable box to view or update its status</p>
+          <button id="startScanner" class="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+            <i class="fas fa-camera mr-2"></i> Start Scanner
+          </button>
+        </div>
+
+        <!-- Scanner Result Popup -->
+        <div id="scanResultPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+          <div id="scannerResult" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-400 w-full max-w-2xl mx-auto transform transition-all duration-300 scale-100">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-blue-800 flex items-center">
+              <i class="fas fa-box-open text-yellow-500 mr-2"></i> Box Details
+            </h3>
+            <button id="closeScanner" class="text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-all duration-200">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Box ID</p>
+                <p class="font-bold text-lg text-blue-800 flex items-center" id="boxId">
+                  <i class="fas fa-fingerprint text-yellow-500 mr-2 text-sm"></i>
+                  BOX-2023-05642
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Type</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxType">
+                  <i class="fas fa-cube text-yellow-500 mr-2 text-sm"></i>
+                  Plastic Container (Medium)
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Cycle Count</p>
+                <div class="flex items-center">
+                  <span class="font-medium mr-2 text-blue-800" id="cycleCount">27</span>
+                  <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 shadow-sm" id="inspectionStatus">Due for Inspection</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Current Location</p>
+                <p class="font-medium text-blue-800 flex items-center" id="currentLocation">
+                  <i class="fas fa-map-marker-alt text-yellow-500 mr-2 text-sm"></i>
+                  Warehouse A, Shelf 4B
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Last Used</p>
+                <p class="font-medium text-blue-800 flex items-center" id="lastUsed">
+                  <i class="fas fa-calendar-alt text-yellow-500 mr-2 text-sm"></i>
+                  2023-11-15
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Manufacture Date</p>
+                <p class="font-medium text-blue-800 flex items-center" id="manufactureDate">
+                  <i class="fas fa-industry text-yellow-500 mr-2 text-sm"></i>
+                  2022-05-10
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 bg-white p-5 rounded-xl shadow-md border-t-4 border-blue-500">
+            <h4 class="font-bold mb-4 text-blue-700 flex items-center">
+              <i class="fas fa-sync-alt text-blue-500 mr-2"></i> Update Status
+            </h4>
+            <div class="flex flex-wrap gap-3">
+              <button class="bg-blue-500 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-600 transition-all duration-200 flex items-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                <i class="fas fa-sign-in-alt mr-2"></i> Check In
+              </button>
+              <button class="bg-yellow-500 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-all duration-200 flex items-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                <i class="fas fa-sign-out-alt mr-2"></i> Check Out
+              </button>
+              <button class="bg-green-500 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-all duration-200 flex items-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                <i class="fas fa-tools mr-2"></i> Mark for Inspection
+              </button>
+              <button class="bg-red-500 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-all duration-200 flex items-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                <i class="fas fa-archive mr-2"></i> Retire Box
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-6 bg-white p-5 rounded-xl shadow-md border-t-4 border-yellow-500">
+            <h4 class="font-bold mb-4 text-blue-700 flex items-center">
+              <i class="fas fa-history text-yellow-500 mr-2"></i> History Log
+            </h4>
+            <div class="space-y-3 history-log-container">
+              <div class="flex items-start bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-yellow-200">
+                <div class="bg-yellow-100 p-2 rounded-full mr-3 shadow-sm flex items-center justify-center w-10 h-10">
+                  <i class="fas fa-sign-out-alt text-yellow-600"></i>
+                </div>
+                <div class="flex-grow">
+                  <div class="flex justify-between items-center">
+                    <p class="font-medium text-blue-800">Checked Out</p>
+                    <span class="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full shadow-sm">2 days ago</span>
+                  </div>
+                  <p class="text-sm text-gray-500 flex items-center mt-1">
+                    <i class="fas fa-user-circle text-gray-400 mr-1"></i> John Doe
+                  </p>
+                  <p class="text-xs text-gray-400 flex items-center mt-1">
+                    <i class="fas fa-map-marker-alt text-gray-300 mr-1"></i> Warehouse A
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-blue-200">
+                <div class="bg-blue-100 p-2 rounded-full mr-3 shadow-sm flex items-center justify-center w-10 h-10">
+                  <i class="fas fa-sign-in-alt text-blue-600"></i>
+                </div>
+                <div class="flex-grow">
+                  <div class="flex justify-between items-center">
+                    <p class="font-medium text-blue-800">Checked In</p>
+                    <span class="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full shadow-sm">5 days ago</span>
+                  </div>
+                  <p class="text-sm text-gray-500 flex items-center mt-1">
+                    <i class="fas fa-user-circle text-gray-400 mr-1"></i> Jane Smith
+                  </p>
+                  <p class="text-xs text-gray-400 flex items-center mt-1">
+                    <i class="fas fa-map-marker-alt text-gray-300 mr-1"></i> Distribution Center
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-green-200">
+                <div class="bg-green-100 p-2 rounded-full mr-3 shadow-sm flex items-center justify-center w-10 h-10">
+                  <i class="fas fa-tools text-green-600"></i>
+                </div>
+                <div class="flex-grow">
+                  <div class="flex justify-between items-center">
+                    <p class="font-medium text-blue-800">Repair Completed</p>
+                    <span class="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full shadow-sm">2 weeks ago</span>
+                  </div>
+                  <p class="text-sm text-gray-500 flex items-center mt-1">
+                    <i class="fas fa-user-circle text-gray-400 mr-1"></i> Mike Johnson
+                  </p>
+                  <p class="text-xs text-gray-400 flex items-center mt-1">
+                    <i class="fas fa-map-marker-alt text-gray-300 mr-1"></i> Maintenance Facility
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AOS Animations + QR Code Scanner -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+  AOS.init({ once: true, duration: 800, offset: 100 });
+
+  // Function to update the history log section
+  function updateHistoryLog(history) {
+    let historyLogContainer = document.querySelector('.history-log-container');
+    if (!historyLogContainer) {
+      // If the container doesn't exist, create it
+      const historySection = document.querySelector('.mt-6.bg-gray-50.p-4.rounded-lg.border-l-4.border-yellow-500');
+      if (!historySection) {
+        // Create the entire history section if it doesn't exist
+        const scannerResult = document.getElementById('scannerResult');
+        const historyDiv = document.createElement('div');
+        historyDiv.className = 'mt-6 bg-gray-50 p-4 rounded-lg border-l-4 border-yellow-500';
+        historyDiv.innerHTML = `
+          <h4 class="font-bold mb-3 text-blue-700 flex items-center">
+            <i class="fas fa-history text-yellow-500 mr-2"></i> History Log
+          </h4>
+          <div class="space-y-3 history-log-container"></div>
+        `;
+        scannerResult.appendChild(historyDiv);
+      } else {
+        historySection.innerHTML = `
+          <h4 class="font-bold mb-3 text-blue-700 flex items-center">
+            <i class="fas fa-history text-yellow-500 mr-2"></i> History Log
+          </h4>
+          <div class="space-y-3 history-log-container"></div>
+        `;
+      }
+      historyLogContainer = document.querySelector('.history-log-container');
+    } else {
+      // Clear existing history items
+      historyLogContainer.innerHTML = '';
+    }
+    
+    // Add history items
+    if (history && history.length > 0) {
+      history.slice(0, 5).forEach(item => {
+        const date = new Date(item.timestamp);
+        const timeAgo = getTimeAgo(date);
+        
+        let iconClass = 'fas fa-history';
+        let bgColorClass = 'bg-blue-100';
+        let iconColorClass = 'text-blue-600';
+        let borderColorClass = 'border-blue-200';
+        
+        // Set icon and colors based on action type
+        if (item.action_type === 'check_in') {
+          iconClass = 'fas fa-sign-in-alt';
+          bgColorClass = 'bg-blue-100';
+          iconColorClass = 'text-blue-600';
+          borderColorClass = 'border-blue-200';
+        } else if (item.action_type === 'check_out') {
+          iconClass = 'fas fa-sign-out-alt';
+          bgColorClass = 'bg-yellow-100';
+          iconColorClass = 'text-yellow-600';
+          borderColorClass = 'border-yellow-200';
+        } else if (item.action_type === 'inspection') {
+          iconClass = 'fas fa-tools';
+          bgColorClass = 'bg-green-100';
+          iconColorClass = 'text-green-600';
+          borderColorClass = 'border-green-200';
+        } else if (item.action_type === 'retire') {
+          iconClass = 'fas fa-archive';
+          bgColorClass = 'bg-red-100';
+          iconColorClass = 'text-red-600';
+          borderColorClass = 'border-red-200';
+        } else if (item.action_type === 'scan') {
+          iconClass = 'fas fa-qrcode';
+          bgColorClass = 'bg-purple-100';
+          iconColorClass = 'text-purple-600';
+          borderColorClass = 'border-purple-200';
+        }
+        
+        // Format action type for display
+        const actionDisplay = item.action_type
+          .split('_')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        
+        const historyItem = document.createElement('div');
+        historyItem.className = `flex items-start bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border ${borderColorClass}`;
+        historyItem.innerHTML = `
+          <div class="${bgColorClass} p-2 rounded-full mr-3 shadow-sm flex items-center justify-center w-10 h-10">
+            <i class="${iconClass} ${iconColorClass}"></i>
+          </div>
+          <div class="flex-grow">
+            <div class="flex justify-between items-center">
+              <p class="font-medium text-blue-800">${actionDisplay}</p>
+              <span class="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full shadow-sm">${timeAgo}</span>
+            </div>
+            <p class="text-sm text-gray-500 flex items-center mt-1">
+              <i class="fas fa-user-circle text-gray-400 mr-1"></i> ${item.user_id || 'Unknown User'}
+            </p>
+            ${item.location ? `<p class="text-xs text-gray-400 flex items-center mt-1">
+              <i class="fas fa-map-marker-alt text-gray-300 mr-1"></i> ${item.location}
+            </p>` : ''}
+          </div>
+        `;
+        
+        historyLogContainer.appendChild(historyItem);
+      });
+    } else {
+      // No history
+      const noHistory = document.createElement('div');
+      noHistory.className = 'text-center py-6 bg-white rounded-lg border border-gray-200';
+      noHistory.innerHTML = `
+        <div class="flex flex-col items-center justify-center">
+          <div class="bg-gray-100 p-3 rounded-full mb-3">
+            <i class="fas fa-history text-gray-400 text-xl"></i>
+          </div>
+          <p class="text-gray-500 font-medium">No history available</p>
+          <p class="text-gray-400 text-sm mt-1">This box has no recorded activity</p>
+        </div>
+      `;
+      historyLogContainer.appendChild(noHistory);
+    }
+  }
+  
+  // Helper function to format time ago
+  function getTimeAgo(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+    const diffWeek = Math.floor(diffDay / 7);
+    const diffMonth = Math.floor(diffDay / 30);
+    const diffYear = Math.floor(diffDay / 365);
+    
+    if (diffSec < 60) return 'Just now';
+    if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+    if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
+    if (diffDay < 7) return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+    if (diffWeek < 4) return `${diffWeek} week${diffWeek > 1 ? 's' : ''} ago`;
+    if (diffMonth < 12) return `${diffMonth} month${diffMonth > 1 ? 's' : ''} ago`;
+    return `${diffYear} year${diffYear > 1 ? 's' : ''} ago`;
+  }
+
+  function onScanSuccess(decodedText) {
+    const boxId = decodedText.trim();
+    document.getElementById('resultMsg').innerText = '✅ QR Code scanned: ' + boxId;
+
+    // First, fetch box details to display them
+    fetch(`http://localhost:3000/api/track/${boxId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.box) {
+        // Show the scanner result popup
+        document.getElementById('scanResultPopup').classList.remove('hidden');
+        document.getElementById('scannerResult').classList.remove('hidden');
+        
+        // Add entrance animation
+        const scannerResult = document.getElementById('scannerResult');
+        scannerResult.classList.add('animate-bounce');
+        setTimeout(() => {
+          scannerResult.classList.remove('animate-bounce');
+        }, 500);
+        
+        // Update box details
+        document.getElementById('boxId').innerText = data.box.box_id;
+        document.getElementById('boxType').innerText = data.box.type;
+        document.getElementById('cycleCount').innerText = data.box.cycle_count;
+        document.getElementById('currentLocation').innerText = data.box.location || 'Unknown';
+        document.getElementById('lastUsed').innerText = data.box.last_used || 'N/A';
+        document.getElementById('manufactureDate').innerText = data.box.manufacture_date || 'N/A';
+        
+        // Update inspection status based on box status
+        const inspectionStatus = document.getElementById('inspectionStatus');
+        if (data.box.status === 'needs_inspection') {
+          inspectionStatus.innerText = 'Due for Inspection';
+          inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800';
+        } else if (data.box.status === 'retired') {
+          inspectionStatus.innerText = 'Retired';
+          inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800';
+        } else {
+          inspectionStatus.innerText = 'Active';
+          inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800';
+        }
+        
+        // Update history log
+        updateHistoryLog(data.history);
+      }
+    })
+    .catch(err => {
+      document.getElementById('resultMsg').innerText = '❌ Failed to fetch box details: ' + err.message;
+    });
+
+    // Then, record the scan action
+    const payload = {
+      box_id: boxId,
+      action_type: 'issued', // Change dynamically if needed
+      location: 'Warehouse A',
+      user_id: 'operator_123'
+    };
+
+    fetch('http://localhost:3000/api/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Scan recorded:', data.message);
+    })
+    .catch(err => {
+      console.error('Failed to record scan:', err.message);
+    });
+  }
+
+  // Start the scanner after DOM is loaded
+  window.addEventListener('DOMContentLoaded', () => {
+    const html5QrCode = new Html5Qrcode("reader");
+    const startButton = document.getElementById('startScanner');
+    const closeButton = document.getElementById('closeScanner');
+    const readerContainer = document.getElementById('reader-container');
+    const scannerResult = document.getElementById('scannerResult');
+    const scannerOverlay = document.querySelector('.scanner-overlay');
+    
+    // Hide the scanner result initially
+    scannerResult.classList.add('hidden');
+    
+    startButton.addEventListener('click', () => {
+      // Start scanning
+      html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        onScanSuccess,
+        (errorMessage) => {
+          // console.error(errorMessage);
+        }
+      )
+      .then(() => {
+        startButton.classList.add('hidden');
+        document.getElementById('resultMsg').innerText = 'Scanning... Point camera at QR code';
+        // Hide the overlay when scanning starts
+        if (scannerOverlay) {
+          scannerOverlay.style.display = 'none';
+        }
+      })
+      .catch((err) => {
+        document.getElementById('resultMsg').innerText = `Error: ${err}`;
+      });
+    });
+    
+    // Close button functionality
+    closeButton.addEventListener('click', () => {
+      document.getElementById('scanResultPopup').classList.add('hidden');
+      scannerResult.classList.add('hidden');
+      html5QrCode.stop().then(() => {
+        startButton.classList.remove('hidden');
+        document.getElementById('resultMsg').innerText = '';
+        // Show the overlay when scanning stops
+        if (scannerOverlay) {
+          scannerOverlay.style.display = 'flex';
+        }
+      });
+    });
+    
+    // Close popup when clicking outside the content
+    document.getElementById('scanResultPopup').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('scanResultPopup')) {
+        document.getElementById('scanResultPopup').classList.add('hidden');
+        scannerResult.classList.add('hidden');
+      }
+    });
+    
+    // Action buttons functionality
+    const actionButtons = document.querySelectorAll('.bg-blue-500, .bg-yellow-500, .bg-green-500, .bg-red-500');
+    actionButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Extract action type from button text or icon
+        let action;
+        if (this.innerText.includes('Check In')) {
+          action = 'check_in';
+        } else if (this.innerText.includes('Check Out')) {
+          action = 'check_out';
+        } else if (this.innerText.includes('Inspection')) {
+          action = 'inspection';
+        } else if (this.innerText.includes('Retire')) {
+          action = 'retire';
+        }
+        
+        const boxId = document.getElementById('boxId').innerText;
+        
+        // Add visual feedback for button click
+        this.classList.add('animate-pulse');
+        setTimeout(() => {
+          this.classList.remove('animate-pulse');
+        }, 500);
+        
+        // Send action to server
+        const payload = {
+          box_id: boxId,
+          action_type: action,
+          location: 'Warehouse A', // This would be dynamic in a real app
+          user_id: 'operator_123' // This would be the logged-in user in a real app
+        };
+        
+        fetch('http://localhost:3000/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+          // Show success message with animation
+          const resultMsg = document.getElementById('resultMsg');
+          resultMsg.innerText = `✅ ${action.replace('_', ' ')} action recorded`;
+          resultMsg.classList.add('animate-bounce');
+          setTimeout(() => {
+            resultMsg.classList.remove('animate-bounce');
+          }, 1000);
+          
+          // Refresh box details
+          fetch(`http://localhost:3000/api/track/${boxId}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.box) {
+              document.getElementById('cycleCount').innerText = data.box.cycle_count;
+              document.getElementById('currentLocation').innerText = data.box.location || 'Unknown';
+              
+              // Update inspection status
+              const inspectionStatus = document.getElementById('inspectionStatus');
+              if (data.box.status === 'needs_inspection') {
+                inspectionStatus.innerText = 'Due for Inspection';
+                inspectionStatus.className = 'px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 shadow-sm';
+              } else if (data.box.status === 'retired') {
+                inspectionStatus.innerText = 'Retired';
+                inspectionStatus.className = 'px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 shadow-sm';
+              } else {
+                inspectionStatus.innerText = 'Active';
+                inspectionStatus.className = 'px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 shadow-sm';
+              }
+              
+              // Update history log
+              updateHistoryLog(data.history);
+            }
+          });
+        })
+        .catch(err => {
+          const resultMsg = document.getElementById('resultMsg');
+          resultMsg.innerText = `❌ Failed to record action: ${err.message}`;
+          resultMsg.classList.add('bg-red-100');
+          setTimeout(() => {
+            resultMsg.classList.remove('bg-red-100');
+          }, 3000);
+        });
+      });
+    });
+  });
+</script>
+
+<!-- Optional: Your additional JS file -->
+<script src="script.js"></script>
+<script src="floating-theme-toggle.js"></script>
+<script src="role-access.js"></script>
+
+<!-- Footer -->
+<footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+        <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+        <ul class="space-y-2">
+          <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+          
+          <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+          <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+        <ul class="space-y-2">
+          <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+          <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+          <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+          <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+        <ul class="space-y-2">
+          <li class="flex items-center">
+            <i class="fas fa-envelope mr-2 text-yellow-200"></i>
+            <span class="text-blue-100">info@trackndrop.com</span>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-phone mr-2 text-yellow-200"></i>
+            <span class="text-blue-100">+91 6305351212</span>
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-map-marker-alt mr-2 text-yellow-200"></i>
+            <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+      <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

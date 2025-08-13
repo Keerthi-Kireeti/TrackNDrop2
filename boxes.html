@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrackNDrop - Box Management</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- AOS Animations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="common_styles.css" />
+
+  <!-- Custom Animation Style -->
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation (Common to all pages) -->
+    <!-- Navigation -->
+  <nav class="bg-blue-900 text-white shadow-lg" data-aos="fade-down">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="flex items-center space-x-2">
+          <i class="fas fa-box-open text-2xl text-yellow-400 animate-bounce-slow"></i>
+          <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+        </a>
+      </div>
+      <!-- Profile Icon and Navigation Options -->
+      <div class="flex items-center space-x-6">
+        <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+        <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+        <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+        <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+        <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+        <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+        <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Login</a>
+        <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+      </div>
+      
+      <button class="md:hidden text-white focus:outline-none">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+  </nav>
+    <!-- Box Management Section -->
+      <section class="bg-blue-800 text-white py-12" data-aos="zoom-in">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold mb-2" data-aos="fade-up">Box Management</h2>
+      <p class="text-lg" data-aos="fade-up" data-aos-delay="100">Monitor, track and manage the lifecycle of all your returnable packaging</p>
+    </div>
+  </section>
+    <section id="boxes" class="py-12 bg-gray-50" data-aos="fade-up">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-blue-800"></h2>
+            
+            <div class="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center mb-6">
+                <div class="flex items-center gap-3 w-full sm:max-w-md">
+                    <div class="relative flex-1">
+                        <input type="text" placeholder="Search boxes..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button id="scanBtn" class="bg-yellow-500 text-blue-900 px-4 py-2 rounded-lg hover:bg-yellow-400 transition flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                        <i class="fas fa-qrcode text-lg"></i>
+                    </button>
+                </div>
+                <button id="addBoxBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center w-full sm:w-auto">
+                    <i class="fas fa-plus mr-2"></i> Add New Box
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Box Cards -->
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-4892-75</h3>
+                            <p class="text-gray-500">Plastic Container</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Needs Inspection</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">147/150</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 98%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Warehouse A</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">2 days ago</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-3021-43</h3>
+                            <p class="text-gray-500">Metal Crate</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">End of Life</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">200/200</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-red-500 h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Dispatch Area</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">Today</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-5567-12</h3>
+                            <p class="text-gray-500">Wooden Pallet</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Needs Inspection</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">89/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 89%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Loading Dock 3</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">5 days ago</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-1123-98</h3>
+                            <p class="text-gray-500">Plastic Container</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Active</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">32/150</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 21%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Warehouse B</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">1 week ago</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-7789-34</h3>
+                            <p class="text-gray-500">Metal Crate</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Active</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">112/200</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 56%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Shipping Area</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">Yesterday</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="box-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-800">BX-9901-56</h3>
+                            <p class="text-gray-500">Wooden Pallet</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">In Maintenance</span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-500">Cycle Count</span>
+                            <span class="font-medium">76/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 76%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Current Location</p>
+                            <p class="font-medium">Repair Station</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Last Used</p>
+                            <p class="font-medium">3 weeks ago</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Details</button>
+                        <button class="text-gray-500 hover:text-gray-700 text-sm">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-center">
+                <button id="loadMoreBoxesBtn" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition">
+                    Load More Boxes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Box Details (Common to boxes.html and scan.html) -->
+    <div id="boxModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-blue-800">Box Details - BX-4892-75</h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-100 p-4 rounded-lg">
+                        <h4 class="font-medium text-blue-700 mb-2">Basic Information</h4>
+                        <div class="space-y-2">
+                            <p><span class="text-blue-600">Type:</span> Plastic Container</p>
+                            <p><span class="text-blue-600">Size:</span> 24" x 18" x 12"</p>
+                            <p><span class="text-blue-600">Weight:</span> 8.5 lbs</p>
+                            <p><span class="text-blue-600">Manufacture Date:</span> March 15, 2022</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-100 p-4 rounded-lg">
+                        <h4 class="font-medium text-yellow-700 mb-2">Current Status</h4>
+                        <div class="space-y-2">
+                            <p><span class="text-yellow-600">Status:</span> <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-200 text-yellow-800">Needs Inspection</span></p>
+                            <p><span class="text-yellow-600">Location:</span> Warehouse A, Rack 4</p>
+                            <p><span class="text-yellow-600">Last Used:</span> 2 days ago</p>
+                            <p><span class="text-yellow-600">Assigned To:</span> Logistics Team</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-100 p-4 rounded-lg">
+                        <h4 class="font-medium text-blue-700 mb-2">Lifecycle Metrics</h4>
+                        <div class="space-y-2">
+                            <p><span class="text-blue-600">Cycle Count:</span> 147/150</p>
+                            <p><span class="text-blue-600">Mileage:</span> 2,450 km</p>
+                            <p><span class="text-blue-600">Last Inspection:</span> 30 cycles ago</p>
+                            <p><span class="text-blue-600">Repair Count:</span> 2</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="font-medium text-blue-700 mb-4">Cycle History</h4>
+                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-blue-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">Location</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">User</th>
+                                    <th class="px-6 py-4 whitespace-nowrap">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">2023-10-26</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Checked Out</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Warehouse A to Customer X</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">John Doe</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">For urgent delivery</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">2023-10-24</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Checked In</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Customer Y to Warehouse A</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Jane Smith</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Returned in good condition</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">2023-10-10</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Inspection</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Maintenance Bay</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Mike Johnson</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Minor scuffs, passed inspection</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-4">
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Edit Box</button>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Retire Box</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Common to all pages) -->
+    <footer class="bg-blue-900 text-white py-8" data-aos="fade-up">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-yellow-300">TrackNDrop</h3>
+          <p class="text-blue-100">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Features</h4>
+          <ul class="space-y-2">
+            <li><a href="track.html" class="text-blue-100 hover:text-yellow-300 transition">Box Tracking</a></li>
+
+            <li><a href="boxes.html" class="text-blue-100 hover:text-yellow-300 transition">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html" class="text-blue-100 hover:text-yellow-300 transition">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="dashboard.html" class="text-blue-100 hover:text-yellow-300 transition">Dashboard</a></li>
+            <li><a href="generate-qr.html" class="text-blue-100 hover:text-yellow-300 transition">Generate QR</a></li>
+            <li><a href="settings.html" class="text-blue-100 hover:text-yellow-300 transition">Settings</a></li>
+            <li><a href="index.html" class="text-blue-100 hover:text-yellow-300 transition">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-yellow-300">Contact Us</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">info@trackndrop.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">+91 6305351212</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-yellow-400"></i>
+              <span class="text-blue-100">PACE Institute Of Technology & Sciences, Ongole, Andhra Pradesh</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-blue-400 mt-8 pt-6 text-center text-blue-100">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 800, offset: 100 });</script>
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+  <script src="boxes.js"></script>
+</body>
+</html>
