@@ -49,7 +49,7 @@ trackndrop/
 
 1. Clone the repo
    ```bash
-   git clone https://github.com/your-username/trackndrop.git
+   git clone https://github.com/Keerthi-Kireeti/TrackNDrop2.git
    ```
 2. Navigate to the folder:
    ```bash
