@@ -114,6 +114,20 @@
                   <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 shadow-sm" id="inspectionStatus">Due for Inspection</span>
                 </div>
               </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Thickness</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxThickness">
+                  <i class="fas fa-ruler-vertical text-yellow-500 mr-2 text-sm"></i>
+                  2.5mm
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Supplier</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxSupplier">
+                  <i class="fas fa-building text-yellow-500 mr-2 text-sm"></i>
+                  PlastCorp Industries
+                </p>
+              </div>
             </div>
 
             <div class="bg-blue-50 p-4 rounded-lg">
@@ -136,6 +150,27 @@
                 <p class="font-medium text-blue-800 flex items-center" id="manufactureDate">
                   <i class="fas fa-industry text-yellow-500 mr-2 text-sm"></i>
                   2022-05-10
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Diameters</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxDiameters">
+                  <i class="fas fa-arrows-alt text-yellow-500 mr-2 text-sm"></i>
+                  45x30x25cm
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Material Used</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxMaterial">
+                  <i class="fas fa-layer-group text-yellow-500 mr-2 text-sm"></i>
+                  HDPE
+                </p>
+              </div>
+              <div class="mb-4">
+                <p class="text-sm text-blue-600 font-semibold">Serial Code</p>
+                <p class="font-medium text-blue-800 flex items-center" id="boxSerialCode">
+                  <i class="fas fa-barcode text-yellow-500 mr-2 text-sm"></i>
+                  PC-4892-75
                 </p>
               </div>
             </div>
@@ -370,14 +405,35 @@
   }
 
   function onScanSuccess(decodedText) {
-    const boxId = decodedText.trim();
-    document.getElementById('resultMsg').innerText = '✅ QR Code scanned: ' + boxId;
-
-    // First, fetch box details to display them
-    fetch(`http://localhost:3000/api/track/${boxId}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.box) {
+    try {
+      // Try to parse as JSON first (new comprehensive format)
+      let qrData;
+      try {
+        qrData = JSON.parse(decodedText);
+        console.log('Parsed comprehensive QR data:', qrData);
+      } catch (e) {
+        // Fallback to old format (just box ID)
+        const boxId = decodedText.trim();
+        document.getElementById('resultMsg').innerText = '✅ QR Code scanned: ' + boxId;
+        
+        // Fetch box details from API for old format
+        fetch(`http://localhost:3000/api/track/${boxId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.box) {
+            displayBoxDetails(data.box, data.history);
+          }
+        })
+        .catch(err => {
+          document.getElementById('resultMsg').innerText = '❌ Failed to fetch box details: ' + err.message;
+        });
+        return;
+      }
+      
+      // Handle comprehensive QR data
+      if (qrData.box_id) {
+        document.getElementById('resultMsg').innerText = '✅ QR Code scanned: ' + qrData.box_id;
+        
         // Show the scanner result popup
         document.getElementById('scanResultPopup').classList.remove('hidden');
         document.getElementById('scannerResult').classList.remove('hidden');
@@ -389,20 +445,27 @@
           scannerResult.classList.remove('animate-bounce');
         }, 500);
         
-        // Update box details
-        document.getElementById('boxId').innerText = data.box.box_id;
-        document.getElementById('boxType').innerText = data.box.type;
-        document.getElementById('cycleCount').innerText = data.box.cycle_count;
-        document.getElementById('currentLocation').innerText = data.box.location || 'Unknown';
-        document.getElementById('lastUsed').innerText = data.box.last_used || 'N/A';
-        document.getElementById('manufactureDate').innerText = data.box.manufacture_date || 'N/A';
+        // Update all box details from QR data
+        document.getElementById('boxId').innerText = qrData.box_id;
+        document.getElementById('boxType').innerText = qrData.type;
+        document.getElementById('cycleCount').innerText = qrData.cycle_count;
+        document.getElementById('currentLocation').innerText = qrData.location || 'Unknown';
+        document.getElementById('lastUsed').innerText = qrData.last_used || 'N/A';
+        document.getElementById('manufactureDate').innerText = qrData.manufacture_date || 'N/A';
+        
+        // Update new fields
+        document.getElementById('boxThickness').innerText = qrData.thickness || 'N/A';
+        document.getElementById('boxSupplier').innerText = qrData.supplier || 'N/A';
+        document.getElementById('boxDiameters').innerText = qrData.diameters || 'N/A';
+        document.getElementById('boxMaterial').innerText = qrData.material_used || 'N/A';
+        document.getElementById('boxSerialCode').innerText = qrData.serial_code || 'N/A';
         
         // Update inspection status based on box status
         const inspectionStatus = document.getElementById('inspectionStatus');
-        if (data.box.status === 'needs_inspection') {
+        if (qrData.status === 'needs_inspection') {
           inspectionStatus.innerText = 'Due for Inspection';
           inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800';
-        } else if (data.box.status === 'retired') {
+        } else if (qrData.status === 'retired') {
           inspectionStatus.innerText = 'Retired';
           inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800';
         } else {
@@ -410,19 +473,78 @@
           inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800';
         }
         
-        // Update history log
-        updateHistoryLog(data.history);
+        // For comprehensive QR data, we might not have history, so create a basic entry
+        const basicHistory = [{
+          action_type: 'scan',
+          timestamp: new Date().toISOString(),
+          user_id: 'QR Scanner',
+          location: qrData.location || 'Unknown'
+        }];
+        updateHistoryLog(basicHistory);
+        
+        // Record the scan action
+        recordScanAction(qrData.box_id, qrData.location);
       }
-    })
-    .catch(err => {
-      document.getElementById('resultMsg').innerText = '❌ Failed to fetch box details: ' + err.message;
-    });
-
-    // Then, record the scan action
+    } catch (error) {
+      console.error('Error processing QR data:', error);
+      document.getElementById('resultMsg').innerText = '❌ Error processing QR data: ' + error.message;
+    }
+  }
+  
+  // Helper function to display box details (for API-fetched data)
+  function displayBoxDetails(box, history) {
+    // Show the scanner result popup
+    document.getElementById('scanResultPopup').classList.remove('hidden');
+    document.getElementById('scannerResult').classList.remove('hidden');
+    
+    // Add entrance animation
+    const scannerResult = document.getElementById('scannerResult');
+    scannerResult.classList.add('animate-bounce');
+    setTimeout(() => {
+      scannerResult.classList.remove('animate-bounce');
+    }, 500);
+    
+    // Update box details
+    document.getElementById('boxId').innerText = box.box_id;
+    document.getElementById('boxType').innerText = box.type;
+    document.getElementById('cycleCount').innerText = box.cycle_count;
+    document.getElementById('currentLocation').innerText = box.location || 'Unknown';
+    document.getElementById('lastUsed').innerText = box.last_used || 'N/A';
+    document.getElementById('manufactureDate').innerText = box.manufacture_date || 'N/A';
+    
+    // Update new fields (if available)
+    document.getElementById('boxThickness').innerText = box.thickness || 'N/A';
+    document.getElementById('boxSupplier').innerText = box.supplier || 'N/A';
+    document.getElementById('boxDiameters').innerText = box.diameters || 'N/A';
+    document.getElementById('boxMaterial').innerText = box.material_used || 'N/A';
+    document.getElementById('boxSerialCode').innerText = box.serial_code || 'N/A';
+    
+    // Update inspection status based on box status
+    const inspectionStatus = document.getElementById('inspectionStatus');
+    if (box.status === 'needs_inspection') {
+      inspectionStatus.innerText = 'Due for Inspection';
+      inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800';
+    } else if (box.status === 'retired') {
+      inspectionStatus.innerText = 'Retired';
+      inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800';
+    } else {
+      inspectionStatus.innerText = 'Active';
+      inspectionStatus.className = 'px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800';
+    }
+    
+    // Update history log
+    updateHistoryLog(history);
+    
+    // Record the scan action
+    recordScanAction(box.box_id, box.location);
+  }
+  
+  // Helper function to record scan action
+  function recordScanAction(boxId, location) {
     const payload = {
       box_id: boxId,
-      action_type: 'issued', // Change dynamically if needed
-      location: 'Warehouse A',
+      action_type: 'scan',
+      location: location || 'Unknown',
       user_id: 'operator_123'
     };
 

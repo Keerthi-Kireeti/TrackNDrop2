@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Types Analytics - TrackNDrop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    <script src="floating-theme-toggle.js"></script>
+    
+    <!-- Navigation -->
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-box-open text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+                <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+                <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+                <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+                <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+                <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+                <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+                <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-blue-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">Box Types Analytics</h1>
+                    <p class="text-blue-100 mt-2">Comprehensive overview of all box types in the system</p>
+                </div>
+                <a href="dashboard.html" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded-lg hover:bg-yellow-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Content -->
+    <section class="py-8">
+        <div class="container mx-auto px-4">
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-blue-500 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Plastic Container</p>
+                            <p class="text-2xl font-bold text-blue-900 dark:text-blue-100" id="plasticContainer">120</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-green-500 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-green-600 dark:text-green-400">Metal Crate</p>
+                            <p class="text-2xl font-bold text-green-900 dark:text-green-100" id="metalCrate">100</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-yellow-500 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-yellow-600 dark:text-yellow-400">Wooden Pallet</p>
+                            <p class="text-2xl font-bold text-yellow-900 dark:text-yellow-100" id="woodenPallet">80</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-purple-500 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-purple-600 dark:text-purple-400">Corrugated Box</p>
+                            <p class="text-2xl font-bold text-purple-900 dark:text-purple-100" id="rigidBox">90</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-red-500 rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-red-600 dark:text-red-400">Mailer Box</p>
+                            <p class="text-2xl font-bold text-red-900 dark:text-red-100" id="mailerBox">110</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Box Type Distribution Chart -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Box Type Distribution</h3>
+                    <canvas id="typeChart" width="400" height="300"></canvas>
+                </div>
+                
+                <!-- Status Distribution by Type Chart -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Status Distribution by Type</h3>
+                    <canvas id="statusChart" width="400" height="300"></canvas>
+                </div>
+                
+                <!-- Cycle Count by Type Chart -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Average Cycle Count by Type</h3>
+                    <canvas id="cycleChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="role-access.js"></script>
+    <script>
+        // Initialize charts
+        let statusChart, typeChart, cycleChart;
+
+        function initCharts() {
+            // Box Types Chart
+            const typeCtx = document.getElementById('typeChart').getContext('2d');
+            typeChart = new Chart(typeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Plastic Container', 'Metal Crate', 'Wooden Pallet', 'Corrugated Box', 'Mailer Box'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Status Distribution Chart
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            statusChart = new Chart(statusCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Plastic Container', 'Metal Crate', 'Wooden Pallet', 'Corrugated Box', 'Mailer Box'],
+                    datasets: [
+                        {
+                            label: 'Active',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#10B981'
+                        },
+                        {
+                            label: 'Needs Inspection',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#F59E0B'
+                        },
+                        {
+                            label: 'End of Life',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#EF4444'
+                        },
+                        {
+                            label: 'Missing',
+                            data: [0, 0, 0, 0, 0],
+                            backgroundColor: '#6B7280'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: { 
+                            stacked: true,
+                            beginAtZero: true 
+                        }
+                    }
+                }
+            });
+
+            // Cycle Count Distribution Chart
+            const cycleCtx = document.getElementById('cycleChart').getContext('2d');
+            cycleChart = new Chart(cycleCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Plastic Container', 'Metal Crate', 'Wooden Pallet', 'Corrugated Box', 'Mailer Box'],
+                    datasets: [{
+                        label: 'Average Cycle Count',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Average Cycles'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function fetchAnalyticsData() {
+            // Mock data representing the exact distribution matching dashboard with realistic random numbers
+            const mockData = {
+                total: 500,
+                active: 300,
+                needsInspection: 150,
+                endOfLife: 50,
+                missing: 50,
+                typeDistribution: [87, 103, 95, 112, 103], // Plastic, Metal, Wooden, Corrugated, Mailer (total 500)
+                cycleDistribution: [85, 95, 75, 65, 55, 45, 35, 45], // 0-25, 26-50, 51-75, 76-100, 101-125, 126-150, 151-175, 176-200
+                locationDistribution: {
+                    'Warehouse A': 85,
+                    'Warehouse B': 75,
+                    'Warehouse C': 65,
+                    'Shipping Area': 55,
+                    'Dispatch Area': 45,
+                    'Loading Dock 1': 40,
+                    'Loading Dock 2': 35,
+                    'Loading Dock 3': 30,
+                    'Repair Station': 25
+                }
+            };
+
+            console.log('Using mock data:', mockData);
+            updateMetricsWithMockData(mockData);
+            updateChartsWithMockData(mockData);
+        }
+
+        function updateMetricsWithMockData(data) {
+            document.getElementById('plasticContainer').textContent = data.typeDistribution[0];
+            document.getElementById('metalCrate').textContent = data.typeDistribution[1];
+            document.getElementById('woodenPallet').textContent = data.typeDistribution[2];
+            document.getElementById('rigidBox').textContent = data.typeDistribution[3];
+            document.getElementById('mailerBox').textContent = data.typeDistribution[4];
+        }
+
+        function updateChartsWithMockData(data) {
+            console.log('Updating charts with mock data');
+            
+            // Update Type Chart (main distribution)
+            typeChart.data.datasets[0].data = data.typeDistribution;
+            typeChart.update();
+
+            // Update Status Chart (status by type)
+            const statusByType = [
+                [52, 26, 6, 3], // Plastic Container: Active, Inspection, EOL, Missing (87 total)
+                [62, 31, 7, 3], // Metal Crate (103 total)
+                [57, 29, 6, 3], // Wooden Pallet (95 total)
+                [67, 34, 8, 3], // Corrugated Box (112 total)
+                [62, 30, 8, 3]  // Mailer Box (103 total)
+            ];
+            
+            // Create stacked bar chart data
+            statusChart.data.datasets = [
+                {
+                    label: 'Active',
+                    data: [52, 62, 57, 67, 62], // Total: 300
+                    backgroundColor: '#10B981'
+                },
+                {
+                    label: 'Needs Inspection',
+                    data: [26, 31, 29, 34, 30], // Total: 150
+                    backgroundColor: '#F59E0B'
+                },
+                {
+                    label: 'End of Life',
+                    data: [6, 7, 6, 8, 8], // Total: 35 (adjusted to fit within 50)
+                    backgroundColor: '#EF4444'
+                },
+                {
+                    label: 'Missing',
+                    data: [3, 3, 3, 3, 3], // Total: 15 (adjusted to fit within 50)
+                    backgroundColor: '#6B7280'
+                }
+            ];
+            statusChart.update();
+
+            // Update Cycle Chart (average cycles by type)
+            const avgCyclesByType = [85, 120, 65, 75, 45]; // Average cycles for each type
+            cycleChart.data.datasets[0].data = avgCyclesByType;
+            cycleChart.update();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            fetchAnalyticsData();
+        });
+    </script>
+</body>
+</html>

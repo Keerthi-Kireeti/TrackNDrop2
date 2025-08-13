@@ -87,6 +87,35 @@
                         </select>
                     </div>
                     
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="thickness" class="block text-sm font-medium text-blue-700 mb-2">Thickness</label>
+                            <input type="text" id="thickness" placeholder="e.g., 2.5mm" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="supplier" class="block text-sm font-medium text-blue-700 mb-2">Supplier</label>
+                            <input type="text" id="supplier" placeholder="e.g., PlastCorp Industries" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="diameters" class="block text-sm font-medium text-blue-700 mb-2">Diameters</label>
+                            <input type="text" id="diameters" placeholder="e.g., 45x30x25cm" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="materialUsed" class="block text-sm font-medium text-blue-700 mb-2">Material Used</label>
+                            <input type="text" id="materialUsed" placeholder="e.g., HDPE" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="serialCode" class="block text-sm font-medium text-blue-700 mb-2">Serial/Code</label>
+                        <input type="text" id="serialCode" placeholder="e.g., PC-4892-75" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    
                     <div>
                         <label for="location" class="block text-sm font-medium text-blue-700 mb-2">Last Checked-in Location</label>
                         <input type="text" id="location" placeholder="Enter location (e.g., Warehouse A, Loading Dock 3)" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
@@ -147,6 +176,7 @@
                         const option = document.createElement('option');
                         option.value = box.box_id;
                         option.textContent = `${box.box_id} (${box.type})`;
+                        option.dataset.box = JSON.stringify(box); // Store full box data
                         boxSelect.appendChild(option);
                         
                         // Create checkbox for multiple selection
@@ -158,6 +188,7 @@
                         checkbox.id = `box-${box.box_id}`;
                         checkbox.value = box.box_id;
                         checkbox.className = 'mr-2 h-5 w-5 text-blue-600';
+                        checkbox.dataset.box = JSON.stringify(box); // Store full box data
                         
                         const label = document.createElement('label');
                         label.htmlFor = `box-${box.box_id}`;
@@ -168,6 +199,24 @@
                         checkboxDiv.appendChild(label);
                         boxSelectionDiv.appendChild(checkboxDiv);
                     });
+                    
+                    // Add event listener to populate form fields when box is selected
+                    boxSelect.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        if (selectedOption.value && selectedOption.dataset.box) {
+                            const boxData = JSON.parse(selectedOption.dataset.box);
+                            populateFormFields(boxData);
+                        }
+                    });
+                    
+                    // Function to populate form fields with box data
+                    function populateFormFields(box) {
+                        document.getElementById('thickness').value = box.thickness || '';
+                        document.getElementById('supplier').value = box.supplier || '';
+                        document.getElementById('diameters').value = box.diameters || '';
+                        document.getElementById('materialUsed').value = box.material_used || '';
+                        document.getElementById('serialCode').value = box.serial_code || '';
+                    }
                     
                     // Create the selection div for multiple QR codes
                     const selectionContainer = document.createElement('div');
@@ -215,7 +264,32 @@
                         
                         // Generate QR code for each selected box
                         selectedBoxes.forEach((boxId, index) => {
-                            console.log(`Generating QR code for box ${boxId} (${index + 1}/${selectedBoxes.length})`);
+                            console.log(`Generating comprehensive QR code for box ${boxId} (${index + 1}/${selectedBoxes.length})`);
+                            
+                            // Get box data from checkbox dataset
+                            const checkbox = document.querySelector(`#box-${boxId}`);
+                            let boxData;
+                            try {
+                                boxData = JSON.parse(checkbox.dataset.box);
+                            } catch (e) {
+                                boxData = { box_id: boxId, type: 'Unknown' };
+                            }
+                            
+                            // Create comprehensive data for this box
+                            const comprehensiveData = {
+                                box_id: boxId,
+                                type: boxData.type || 'Unknown',
+                                cycle_count: boxData.cycle_count || 0,
+                                location: location,
+                                last_used: boxData.last_used || new Date().toISOString().split('T')[0],
+                                manufacture_date: boxData.manufacture_date || new Date().toISOString().split('T')[0],
+                                status: boxData.status || 'active',
+                                thickness: boxData.thickness || 'N/A',
+                                supplier: boxData.supplier || 'N/A',
+                                diameters: boxData.diameters || 'N/A',
+                                material_used: boxData.material_used || 'N/A',
+                                serial_code: boxData.serial_code || 'N/A'
+                            };
                             
                             const qrContainer = document.createElement('div');
                             qrContainer.className = 'bg-white p-4 rounded-lg shadow-md border border-gray-200 text-center qr-container qr-fade-in';
@@ -241,7 +315,7 @@
                             const downloadLink = document.createElement('a');
                             downloadLink.className = 'mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition cursor-pointer';
                             downloadLink.innerHTML = '<i class="fas fa-download mr-1"></i> Download';
-                            downloadLink.setAttribute('download', `qr-${boxId}.png`);
+                            downloadLink.setAttribute('download', `qr-${boxId}-comprehensive.png`);
                             
                             qrContainer.appendChild(qrTitle);
                             qrContainer.appendChild(qrImgContainer);
@@ -250,8 +324,11 @@
                             
                             multipleQrResults.appendChild(qrContainer);
                             
-                            // Generate QR code
-                            fetch(`http://localhost:3000/api/qrcode?data=${encodeURIComponent(boxId)}`)
+                            // Generate comprehensive QR code
+                            const qrDataString = JSON.stringify(comprehensiveData);
+                            const encodedData = encodeURIComponent(qrDataString);
+                            
+                            fetch(`http://localhost:3000/api/qrcode?data=${encodedData}`)
                                 .then(res => {
                                     console.log(`QR code response for box ${boxId}: status ${res.status}`);
                                     if (!res.ok) {
@@ -319,15 +396,41 @@
                 
                 const boxId = boxSelect.value;
                 const location = document.getElementById('location').value;
+                const thickness = document.getElementById('thickness').value;
+                const supplier = document.getElementById('supplier').value;
+                const diameters = document.getElementById('diameters').value;
+                const materialUsed = document.getElementById('materialUsed').value;
+                const serialCode = document.getElementById('serialCode').value;
                 
-                if (!boxId || !location) {
-                    alert('Please select a box and enter a location');
+                if (!boxId || !location || !thickness || !supplier || !diameters || !materialUsed || !serialCode) {
+                    alert('Please fill in all fields');
                     return;
                 }
                 
-                // Generate QR code
-                console.log('Generating QR code for:', boxId);
-                fetch(`http://localhost:3000/api/qrcode?data=${encodeURIComponent(boxId)}`)
+                // Create comprehensive QR data
+                const comprehensiveData = {
+                    box_id: boxId,
+                    type: boxSelect.options[boxSelect.selectedIndex].textContent.split('(')[1].replace(')', ''),
+                    cycle_count: 0, // Will be fetched from backend
+                    location: location,
+                    last_used: new Date().toISOString().split('T')[0],
+                    manufacture_date: new Date().toISOString().split('T')[0],
+                    status: 'active',
+                    thickness: thickness,
+                    supplier: supplier,
+                    diameters: diameters,
+                    material_used: materialUsed,
+                    serial_code: serialCode
+                };
+                
+                // Generate QR code with comprehensive data
+                console.log('Generating comprehensive QR code for:', comprehensiveData);
+                
+                // Convert to JSON string and encode for URL
+                const qrDataString = JSON.stringify(comprehensiveData);
+                const encodedData = encodeURIComponent(qrDataString);
+                
+                fetch(`http://localhost:3000/api/qrcode?data=${encodedData}`)
                     .then(res => {
                         console.log('QR code response status:', res.status);
                         if (!res.ok) {
@@ -349,7 +452,7 @@
                         };
                         
                         downloadBtn.href = url;
-                        downloadBtn.download = `qr-${boxId}.png`;
+                        downloadBtn.download = `qr-${boxId}-comprehensive.png`;
                         
                         // Update info
                         boxIdSpan.textContent = boxId;

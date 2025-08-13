@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="common_styles.css">
 </head>
 <body class="bg-gray-50">
+    <script src="floating-theme-toggle.js"></script>
     <!-- Navigation -->
     <nav class="bg-blue-900 text-white shadow-lg">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -159,7 +160,7 @@
             
             try {
                 const user = JSON.parse(userString);
-                if (!user.email) {
+                if (!user.username) {
                     // Invalid user data, redirect to login
                     window.location.href = 'login.html';
                     return;
@@ -218,13 +219,15 @@
             });
 
             function populateProfile(user) {
-                document.getElementById('userName').textContent = user.name || 'User Name';
-                document.getElementById('userEmail').textContent = user.email || 'user@example.com';
+                // Display user info in the header
+                document.getElementById('userName').textContent = user.name || user.username || 'User Name';
+                document.getElementById('userEmail').textContent = user.email || user.username + '@trackndrop.com';
                 document.getElementById('userRole').textContent = user.user_type || 'User';
                 
-                document.getElementById('fullName').value = user.name || '';
-                document.getElementById('email').value = user.email || '';
-                document.getElementById('phone').value = user.phone || '';
+                // Populate form fields
+                document.getElementById('fullName').value = user.name || user.username || '';
+                document.getElementById('email').value = user.email || user.username + '@trackndrop.com';
+                document.getElementById('phone').value = user.phone || '123456789';
                 document.getElementById('department').value = user.department || '';
                 document.getElementById('role').value = user.user_type || 'User';
             }
@@ -260,27 +263,46 @@
                 }
             }
 
-            function saveChanges() {
-                // Here you would typically send the data to your backend
+            async function saveChanges() {
                 const updatedData = {
+                    username: document.getElementById('email').value.split('@')[0], // Extract username from email
                     name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
                     phone: document.getElementById('phone').value,
                     department: document.getElementById('department').value
                 };
 
-                // Update localStorage (in a real app, you'd update the backend)
-                const userString = localStorage.getItem('user');
-                if (userString) {
-                    const user = JSON.parse(userString);
-                    const updatedUser = { ...user, ...updatedData };
-                    localStorage.setItem('user', JSON.stringify(updatedUser));
+                try {
+                    // Send update request to backend
+                    const response = await fetch('http://localhost:3000/api/auth/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update profile');
+                    }
+
+                    // Update localStorage with new data
+                    const userString = localStorage.getItem('user');
+                    if (userString) {
+                        const user = JSON.parse(userString);
+                        const updatedUser = { ...user, ...updatedData };
+                        localStorage.setItem('user', JSON.stringify(updatedUser));
+                    }
+
+                    // Show success message
+                    alert('Profile updated successfully!');
+
+                    // Disable editing
+                    cancelEditing();
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile. Please try again.');
                 }
-
-                // Show success message
-                alert('Profile updated successfully!');
-
-                // Disable editing
-                cancelEditing();
             }
 
             function openPasswordModal() {

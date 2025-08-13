@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Types - Inspection Analytics - TrackNDrop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="common_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    <script src="floating-theme-toggle.js"></script>
+    
+    <!-- Navigation -->
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-box-open text-2xl text-yellow-400"></i>
+                    <span class="text-xl font-bold text-yellow-400">TrackNDrop</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="dashboard.html" class="text-yellow-400 hover:text-white transition duration-200">Dashboard</a>
+                <a href="boxes.html" class="text-yellow-400 hover:text-white transition duration-200">Boxes</a>
+                <a href="alerts.html" class="text-yellow-400 hover:text-white transition duration-200">Alerts</a>
+                <a href="track.html" class="text-yellow-400 hover:text-white transition duration-200">Track</a>
+                <a href="generate-qr.html" class="text-yellow-400 hover:text-white transition duration-200">Generate QR</a>
+                <a href="settings.html" class="text-yellow-400 hover:text-white transition duration-200">Settings</a>
+                <a href="login.html" class="text-yellow-400 hover:text-white transition duration-200">Logout</a>
+                <a href="profile.html" class="text-yellow-400 hover:text-white transition duration-200 p-2" title="Profile">
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-yellow-700 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">Box Types - Inspection Analytics</h1>
+                    <p class="text-yellow-100 mt-2">Analysis of boxes needing inspection by type and risk level</p>
+                </div>
+                <a href="dashboard.html" class="bg-yellow-400 text-blue-900 px-4 py-2 rounded-lg hover:bg-yellow-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Content -->
+    <section class="py-8">
+        <div class="container mx-auto px-4">
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-blue-500 rounded-lg">
+                            <i class="fas fa-box text-white"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Plastic Container</p>
+                            <p class="text-2xl font-bold text-blue-900 dark:text-blue-100" id="plasticContainer">36</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-green-500 rounded-lg">
+                            <i class="fas fa-box text-white"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-green-600 dark:text-green-400">Metal Crate</p>
+                            <p class="text-2xl font-bold text-green-900 dark:text-green-100" id="metalCrate">30</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-yellow-500 rounded-lg">
+                            <i class="fas fa-box text-white"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-yellow-600 dark:text-yellow-400">Wooden Pallet</p>
+                            <p class="text-2xl font-bold text-yellow-900 dark:text-yellow-100" id="woodenPallet">24</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-purple-500 rounded-lg">
+                            <i class="fas fa-box text-white"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-purple-600 dark:text-purple-400">Corrugated Box</p>
+                            <p class="text-2xl font-bold text-purple-900 dark:text-purple-100" id="rigidBox">27</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="p-2 bg-red-500 rounded-lg">
+                            <i class="fas fa-box text-white"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-red-600 dark:text-red-400">Mailer Box</p>
+                            <p class="text-2xl font-bold text-red-900 dark:text-red-100" id="mailerBox">33</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Risk Level Distribution -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Risk Level Distribution</h3>
+                    <canvas id="riskChart" width="400" height="300"></canvas>
+                </div>
+                
+                <!-- Box Types Needing Inspection -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Box Types Needing Inspection</h3>
+                    <canvas id="typeChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+
+            <!-- Additional Analytics -->
+            <div class="grid grid-cols-1 gap-8 mb-8">
+                <!-- Cycle Count Distribution -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Cycle Count Distribution</h3>
+                    <canvas id="cycleChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="role-access.js"></script>
+    <script>
+        // Initialize charts
+        let riskChart, typeChart, cycleChart;
+
+        function initCharts() {
+            // Risk Level Chart
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            riskChart = new Chart(riskCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Low Risk (60-70%)', 'Medium Risk (70-80%)', 'High Risk (80-90%)', 'Critical Risk (90%+)'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#10B981', '#F59E0B', '#F97316', '#EF4444'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Box Types Chart
+            const typeCtx = document.getElementById('typeChart').getContext('2d');
+            typeChart = new Chart(typeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Plastic Container', 'Metal Crate', 'Wooden Pallet', 'Corrugated Box', 'Mailer Box'],
+                    datasets: [{
+                        label: 'Boxes',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: '#F59E0B',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Cycle Count Chart
+            const cycleCtx = document.getElementById('cycleChart').getContext('2d');
+            cycleChart = new Chart(cycleCtx, {
+                type: 'line',
+                data: {
+                    labels: ['100-110', '111-120', '121-130', '131-140', '141-150', '151-160', '161-170', '171-180'],
+                    datasets: [{
+                        label: 'Boxes',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function fetchInspectionData() {
+            // Mock data for inspection boxes matching dashboard total of 150 with realistic random numbers
+            const mockData = {
+                total: 150,
+                avgCycleCount: 125,
+                highRiskCount: 45,
+                locationCount: 8,
+                riskLevels: [32, 43, 48, 27], // Low, Medium, High, Critical (total 150)
+                typeDistribution: [28, 31, 29, 32, 30], // Plastic, Metal, Wooden, Corrugated, Mailer (total 150)
+                cycleDistribution: [16, 21, 24, 31, 26, 19, 11, 2], // 100-110, 111-120, 121-130, 131-140, 141-150, 151-160, 161-170, 171-180 (total 150)
+                locationDistribution: {
+                    'Warehouse A': 25,
+                    'Warehouse B': 22,
+                    'Loading Dock 1': 20,
+                    'Loading Dock 2': 18,
+                    'Shipping Area': 16,
+                    'Dispatch Area': 14,
+                    'Warehouse C': 12,
+                    'Repair Station': 10
+                }
+            };
+
+            console.log('Using mock data for inspection boxes:', mockData);
+            updateMetricsWithMockData(mockData);
+            updateChartsWithMockData(mockData);
+        }
+
+        function updateMetricsWithMockData(data) {
+            document.getElementById('plasticContainer').textContent = data.typeDistribution[0];
+            document.getElementById('metalCrate').textContent = data.typeDistribution[1];
+            document.getElementById('woodenPallet').textContent = data.typeDistribution[2];
+            document.getElementById('rigidBox').textContent = data.typeDistribution[3];
+            document.getElementById('mailerBox').textContent = data.typeDistribution[4];
+        }
+
+        function updateChartsWithMockData(data) {
+            console.log('Updating inspection charts with mock data');
+            
+            // Update Risk Chart
+            riskChart.data.datasets[0].data = data.riskLevels;
+            riskChart.update();
+
+            // Update Type Chart
+            typeChart.data.datasets[0].data = data.typeDistribution;
+            typeChart.update();
+
+            // Update Cycle Chart
+            cycleChart.data.datasets[0].data = data.cycleDistribution;
+            cycleChart.update();
+        }
+
+        function getMaxCycles(type) {
+            const maxCycles = {
+                'Plastic Container': 150,
+                'Metal Crate': 200,
+                'Wooden Pallet': 100,
+                'Corrugated Box': 120,
+                'Mailer Box': 80
+            };
+            return maxCycles[type] || 150;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            fetchInspectionData();
+        });
+    </script>
+</body>
+</html>
