@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackNDrop — Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="common_styles.css">
+  <script>(function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();</script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="index.html" class="nav-logo"><div class="logo-icon"><i class="fas fa-box-open"></i></div><span>TrackNDrop</span></a>
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html"><i class="fas fa-truck"></i> Track</a>
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          <a href="profile.html" class="btn-ghost" title="Profile" style="background:var(--accent)"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+        <button class="md:hidden btn-ghost" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i class="fas fa-bars text-xl"></i></button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="background:var(--primary);color:var(--primary-foreground)"><i class="fas fa-user"></i> Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="mb-8" data-aos="fade-down">
+        <h1 style="font-size:1.875rem;font-weight:700;margin-bottom:0.5rem">Profile</h1>
+        <p class="text-muted">View and manage your account information</p>
+      </div>
+
+      <!-- Profile Header Card -->
+      <div class="card mb-6" data-aos="fade-up" style="overflow:hidden">
+        <div style="background:var(--primary);padding:2rem">
+          <div class="flex items-center gap-4">
+            <div style="width:4rem;height:4rem;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center">
+              <i class="fas fa-user text-2xl" style="color:var(--primary-foreground)"></i>
+            </div>
+            <div>
+              <h3 style="font-size:1.25rem;font-weight:700;color:var(--primary-foreground)" id="userName">Loading...</h3>
+              <p style="color:var(--primary-foreground);opacity:0.8;font-size:0.875rem" id="userEmail">Loading...</p>
+              <span class="badge badge-teal mt-1" id="userRole" style="font-size:0.7rem">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Information Card -->
+      <div class="card mb-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-user-edit mr-2" style="color:var(--teal)"></i>Personal Information</div>
+        </div>
+        <div class="card-content" style="display:flex;flex-direction:column;gap:1.25rem">
+          <div>
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" disabled>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" disabled>
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" disabled>
+          </div>
+          <div>
+            <label for="department">Department</label>
+            <input type="text" id="department" disabled>
+          </div>
+          <div>
+            <label for="role">Role</label>
+            <input type="text" id="role" disabled style="background:var(--muted)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="200">
+        <button id="editProfileBtn" class="btn-primary"><i class="fas fa-edit mr-2"></i>Edit Profile</button>
+        <button id="saveChangesBtn" class="btn-secondary hidden"><i class="fas fa-save mr-2"></i>Save</button>
+        <button id="cancelEditBtn" class="btn-outline hidden">Cancel</button>
+        <button id="changePasswordBtn" class="btn-outline"><i class="fas fa-key mr-2"></i>Change Password</button>
+        <button id="logoutBtn" class="btn-destructive"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Change Password Modal -->
+  <div id="passwordModal" class="fixed inset-0 hidden items-center justify-center z-50" style="background:rgba(0,0,0,0.6)">
+    <div class="card w-full max-w-md" style="margin:1rem">
+      <div class="card-header">
+        <div class="card-title">Change Password</div>
+        <p class="card-description">Enter your current password and choose a new one</p>
+      </div>
+      <div class="card-content" style="display:flex;flex-direction:column;gap:1.25rem">
+        <div><label for="currentPassword">Current Password</label><input type="password" id="currentPassword"></div>
+        <div><label for="newPassword">New Password</label><input type="password" id="newPassword"></div>
+        <div><label for="confirmPassword">Confirm New Password</label><input type="password" id="confirmPassword"></div>
+        <div class="flex gap-3 mt-2">
+          <button id="updatePasswordBtn" class="btn-primary flex-1">Update Password</button>
+          <button id="closePasswordModal" class="btn-outline flex-1">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-2 mb-4"><div style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem"><i class="fas fa-box-open"></i></div><span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span></div><p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="track.html">Box Tracking</a></li><li><a href="boxes.html">Lifecycle Monitoring</a></li><li><a href="alerts.html">Alerts & Notifications</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="dashboard.html">Dashboard</a></li><li><a href="generate-qr.html">Generate QR</a></li><li><a href="settings.html">Settings</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4><ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)"><li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li><li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li><li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute, Ongole, AP</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2023 TrackNDrop. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 50 });</script>
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+
+  <!-- Profile JS (preserved from original) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const userString = localStorage.getItem('user');
+      if (!userString) { window.location.href = 'login.html'; return; }
+      try {
+        const user = JSON.parse(userString);
+        if (!user.username) { window.location.href = 'login.html'; return; }
+        populateProfile(user);
+      } catch (error) { console.error('Error parsing user data:', error); window.location.href = 'login.html'; return; }
+
+      const editProfileBtn = document.getElementById('editProfileBtn');
+      const saveChangesBtn = document.getElementById('saveChangesBtn');
+      const cancelEditBtn = document.getElementById('cancelEditBtn');
+      const changePasswordBtn = document.getElementById('changePasswordBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const passwordModal = document.getElementById('passwordModal');
+      const closePasswordModalBtn = document.getElementById('closePasswordModal');
+      const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+
+      editProfileBtn?.addEventListener('click', enableEditing);
+      saveChangesBtn?.addEventListener('click', saveChanges);
+      cancelEditBtn?.addEventListener('click', cancelEditing);
+      changePasswordBtn?.addEventListener('click', () => { passwordModal.classList.remove('hidden'); passwordModal.classList.add('flex'); });
+      logoutBtn?.addEventListener('click', () => { localStorage.removeItem('user'); window.location.href = 'login.html'; });
+      closePasswordModalBtn?.addEventListener('click', closeModal);
+      updatePasswordBtn?.addEventListener('click', updatePassword);
+      passwordModal?.addEventListener('click', function(e) { if (e.target === passwordModal) closeModal(); });
+
+      function populateProfile(user) {
+        document.getElementById('userName').textContent = user.name || user.username || 'User Name';
+        document.getElementById('userEmail').textContent = user.email || user.username + '@trackndrop.com';
+        document.getElementById('userRole').textContent = user.user_type || 'User';
+        document.getElementById('fullName').value = user.name || user.username || '';
+        document.getElementById('email').value = user.email || user.username + '@trackndrop.com';
+        document.getElementById('phone').value = user.phone || '123456789';
+        document.getElementById('department').value = user.department || '';
+        document.getElementById('role').value = user.user_type || 'User';
+      }
+
+      function enableEditing() {
+        ['fullName', 'phone', 'department'].forEach(id => { const el = document.getElementById(id); if(el) el.disabled = false; });
+        editProfileBtn.classList.add('hidden');
+        saveChangesBtn.classList.remove('hidden');
+        cancelEditBtn.classList.remove('hidden');
+      }
+
+      function cancelEditing() {
+        ['fullName', 'phone', 'department'].forEach(id => { const el = document.getElementById(id); if(el) el.disabled = true; });
+        editProfileBtn.classList.remove('hidden');
+        saveChangesBtn.classList.add('hidden');
+        cancelEditBtn.classList.add('hidden');
+        const u = localStorage.getItem('user'); if(u) populateProfile(JSON.parse(u));
+      }
+
+      async function saveChanges() {
+        const data = { username: document.getElementById('email').value.split('@')[0], name: document.getElementById('fullName').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, department: document.getElementById('department').value };
+        try {
+          const res = await fetch('http://localhost:3000/api/auth/profile', { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+          if (!res.ok) throw new Error('Failed');
+          const u = localStorage.getItem('user'); if(u) { localStorage.setItem('user', JSON.stringify({...JSON.parse(u), ...data})); }
+          alert('Profile updated successfully!');
+          cancelEditing();
+        } catch(e) { console.error(e); alert('Failed to update profile.'); }
+      }
+
+      function closeModal() {
+        passwordModal.classList.add('hidden'); passwordModal.classList.remove('flex');
+        ['currentPassword','newPassword','confirmPassword'].forEach(id => document.getElementById(id).value = '');
+      }
+
+      function updatePassword() {
+        const cur = document.getElementById('currentPassword').value, np = document.getElementById('newPassword').value, cp = document.getElementById('confirmPassword').value;
+        if (!cur || !np || !cp) { alert('Please fill in all fields'); return; }
+        if (np !== cp) { alert('Passwords do not match'); return; }
+        if (np.length < 6) { alert('Password must be at least 6 characters'); return; }
+        alert('Password updated successfully!');
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

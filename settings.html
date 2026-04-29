@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackNDrop — Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="common_styles.css">
+  <script>(function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();</script>
+  <style>
+    .toggle-switch { position:relative; display:inline-block; width:44px; height:24px; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-slider { position:absolute; cursor:pointer; inset:0; background:var(--muted); border-radius:9999px; transition:all 200ms; }
+    .toggle-slider:before { content:''; position:absolute; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:all 200ms; box-shadow:0 1px 2px rgba(0,0,0,0.15); }
+    .toggle-switch input:checked + .toggle-slider { background:var(--teal); }
+    .toggle-switch input:checked + .toggle-slider:before { transform:translateX(20px); }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="index.html" class="nav-logo"><div class="logo-icon"><i class="fas fa-box-open"></i></div><span>TrackNDrop</span></a>
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html"><i class="fas fa-truck"></i> Track</a>
+          <a href="generate-qr.html"><i class="fas fa-qrcode"></i> Generate QR</a>
+          <a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="profile.html" class="btn-ghost" title="Profile"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+        <button class="md:hidden btn-ghost" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i class="fas fa-bars text-xl"></i></button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="background:var(--primary);color:var(--primary-foreground)"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8" data-aos="fade-down">
+        <h1 style="font-size:1.875rem;font-weight:700;margin-bottom:0.5rem">Settings</h1>
+        <p class="text-muted">Manage your system preferences and lifecycle thresholds</p>
+      </div>
+
+      <!-- Lifecycle Thresholds -->
+      <div class="card mb-8" data-aos="fade-up" id="settings">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-sliders-h mr-2" style="color:var(--teal)"></i>Lifecycle Thresholds</div>
+          <p class="card-description">Set maximum cycles and inspection points for each material type</p>
+        </div>
+        <div class="card-content" style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr><th>Material Type</th><th>Max Cycles</th><th>Inspection Threshold</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="flex items-center gap-3"><div class="kpi-icon teal" style="width:2.25rem;height:2.25rem"><i class="fas fa-box" style="font-size:0.875rem"></i></div><span style="font-weight:500">Plastic Container</span></div></td>
+                <td><input type="number" value="100" max="100" style="width:5rem" data-setting-key="plastic_max_cycles"></td>
+                <td><input type="number" value="90" max="100" style="width:5rem" data-setting-key="plastic_inspection_threshold"></td>
+                <td><button class="text-sm font-medium mr-3" style="color:var(--teal);background:none;border:none;cursor:pointer" data-action="save" data-type="plastic">Save</button><button class="text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer" data-action="reset" data-type="plastic">Reset</button></td>
+              </tr>
+              <tr>
+                <td><div class="flex items-center gap-3"><div class="kpi-icon amber" style="width:2.25rem;height:2.25rem"><i class="fas fa-box" style="font-size:0.875rem"></i></div><span style="font-weight:500">Metal Crate</span></div></td>
+                <td><input type="number" value="100" max="100" style="width:5rem" data-setting-key="metal_max_cycles"></td>
+                <td><input type="number" value="90" max="100" style="width:5rem" data-setting-key="metal_inspection_threshold"></td>
+                <td><button class="text-sm font-medium mr-3" style="color:var(--teal);background:none;border:none;cursor:pointer" data-action="save" data-type="metal">Save</button><button class="text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer" data-action="reset" data-type="metal">Reset</button></td>
+              </tr>
+              <tr>
+                <td><div class="flex items-center gap-3"><div class="kpi-icon blue" style="width:2.25rem;height:2.25rem"><i class="fas fa-box" style="font-size:0.875rem"></i></div><span style="font-weight:500">Wooden Pallet</span></div></td>
+                <td><input type="number" value="100" max="100" style="width:5rem" data-setting-key="wooden_max_cycles"></td>
+                <td><input type="number" value="90" max="100" style="width:5rem" data-setting-key="wooden_inspection_threshold"></td>
+                <td><button class="text-sm font-medium mr-3" style="color:var(--teal);background:none;border:none;cursor:pointer" data-action="save" data-type="wooden">Save</button><button class="text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer" data-action="reset" data-type="wooden">Reset</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="card mb-8" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-bell mr-2" style="color:var(--teal)"></i>Notification Settings</div>
+          <p class="card-description">Configure how you receive alerts and updates</p>
+        </div>
+        <div class="card-content" style="display:flex;flex-direction:column;gap:1.5rem">
+          <div class="flex items-center justify-between">
+            <div><p style="font-weight:500;margin-bottom:0.125rem">Email Notifications</p><p class="text-muted text-sm">Receive alerts via email</p></div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="separator"></div>
+          <div class="flex items-center justify-between">
+            <div><p style="font-weight:500;margin-bottom:0.125rem">SMS Notifications</p><p class="text-muted text-sm">Receive critical alerts via SMS</p></div>
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="separator"></div>
+          <div class="flex items-center justify-between">
+            <div><p style="font-weight:500;margin-bottom:0.125rem">In-App Notifications</p><p class="text-muted text-sm">Show alerts in the application</p></div>
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between" data-aos="fade-up" data-aos-delay="200">
+        <button id="resetSettingsBtn" class="btn-outline">Reset to Defaults</button>
+        <button id="saveAllSettingsBtn" class="btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-2 mb-4"><div style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem"><i class="fas fa-box-open"></i></div><span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span></div><p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="track.html">Box Tracking</a></li><li><a href="boxes.html">Lifecycle Monitoring</a></li><li><a href="alerts.html">Alerts & Notifications</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="dashboard.html">Dashboard</a></li><li><a href="generate-qr.html">Generate QR</a></li><li><a href="settings.html">Settings</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4><ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)"><li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li><li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li><li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute, Ongole, AP</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2023 TrackNDrop. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 50 });</script>
+  <script src="script.js"></script>
+  <script src="settings.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+</body>
+</html>

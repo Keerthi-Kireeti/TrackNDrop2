@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackNDrop — Alerts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="common_styles.css">
+  <script>(function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();</script>
+  <style>
+    .alert-tab { border-bottom: 2px solid transparent; transition: all 200ms; cursor: pointer; background: none; }
+    .alert-tab.active-tab { border-color: var(--teal); color: var(--teal); }
+    .alert-tab:not(.active-tab) { color: var(--muted-foreground); }
+    .alert-tab:hover:not(.active-tab) { color: var(--card-foreground); }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="index.html" class="nav-logo"><div class="logo-icon"><i class="fas fa-box-open"></i></div><span>TrackNDrop</span></a>
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html" class="active"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html"><i class="fas fa-truck"></i> Track</a>
+          <a href="generate-qr.html"><i class="fas fa-qrcode"></i> Generate QR</a>
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="profile.html" class="btn-ghost" title="Profile"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+        <button class="md:hidden btn-ghost" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i class="fas fa-bars text-xl"></i></button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="alerts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="background:var(--primary);color:var(--primary-foreground)"><i class="fas fa-bell"></i> Alerts</a>
+        <a href="track.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-truck"></i> Track</a>
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8" data-aos="fade-down">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <h1 style="font-size:1.875rem;font-weight:700">Alerts</h1>
+            <span class="badge badge-red">3 new</span>
+          </div>
+          <button class="btn-outline">Mark All as Read</button>
+        </div>
+        <p class="text-muted">Stay updated with box status changes and notifications</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div class="kpi-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="flex items-center justify-between">
+            <div><p class="text-sm text-muted mb-1">Unread</p><p class="kpi-value" style="font-size:1.5rem;margin-top:0">3</p></div>
+            <div class="kpi-icon red"><i class="fas fa-bell"></i></div>
+          </div>
+        </div>
+        <div class="kpi-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="flex items-center justify-between">
+            <div><p class="text-sm text-muted mb-1">Total Alerts</p><p class="kpi-value" style="font-size:1.5rem;margin-top:0">4</p></div>
+            <div class="kpi-icon slate"><i class="fas fa-info-circle"></i></div>
+          </div>
+        </div>
+        <div class="kpi-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="flex items-center justify-between">
+            <div><p class="text-sm text-muted mb-1">Critical</p><p class="kpi-value" style="font-size:1.5rem;margin-top:0">1</p></div>
+            <div class="kpi-icon amber"><i class="fas fa-exclamation-circle"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="card" data-aos="fade-up">
+        <div class="grid grid-cols-3" style="border-bottom:1px solid var(--border)">
+          <button class="alert-tab active-tab py-4 px-6 font-medium text-center text-sm" data-tab="all">All Alerts</button>
+          <button class="alert-tab py-4 px-6 font-medium text-center text-sm" data-tab="inspection">Needs Inspection</button>
+          <button class="alert-tab py-4 px-6 font-medium text-center text-sm" data-tab="eol">End of Life</button>
+        </div>
+
+        <!-- All Alerts Tab -->
+        <div id="all-alerts" class="alert-content p-6">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:var(--warning-light)"><i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i></div>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-1">
+                  <div class="flex items-center gap-2"><h4 style="font-weight:600;font-size:0.875rem">Box BX-4892-75 approaching cycle limit</h4><div style="width:8px;height:8px;border-radius:50%;background:var(--destructive)"></div></div>
+                  <span class="text-sm text-muted whitespace-nowrap ml-4">2 hours ago</span>
+                </div>
+                <p class="text-muted text-sm mb-3">Plastic container has reached 147 of 150 allowed cycles. Please inspect before next use.</p>
+                <div class="flex items-center gap-3">
+                  <span class="badge badge-outline"><i class="fas fa-box mr-1" style="font-size:0.65rem"></i>BX-4892-75</span>
+                  <button class="text-sm font-medium" style="color:var(--teal);background:none;border:none;cursor:pointer">View Details</button>
+                  <button class="close-notification text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer">Mark as Read</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:#fee2e2"><i class="fas fa-times-circle" style="color:var(--destructive)"></i></div>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-1">
+                  <div class="flex items-center gap-2"><h4 style="font-weight:600;font-size:0.875rem">Box BX-3021-43 reached end of life</h4><div style="width:8px;height:8px;border-radius:50%;background:var(--destructive)"></div></div>
+                  <span class="text-sm text-muted whitespace-nowrap ml-4">1 day ago</span>
+                </div>
+                <p class="text-muted text-sm mb-3">Metal crate has completed 200 cycles. Please retire and replace this box.</p>
+                <div class="flex items-center gap-3">
+                  <span class="badge badge-outline"><i class="fas fa-box mr-1" style="font-size:0.65rem"></i>BX-3021-43</span>
+                  <button class="text-sm font-medium" style="color:var(--teal);background:none;border:none;cursor:pointer">View Details</button>
+                  <button class="close-notification text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer">Mark as Read</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:var(--warning-light)"><i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i></div>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-1">
+                  <div class="flex items-center gap-2"><h4 style="font-weight:600;font-size:0.875rem">Box BX-5567-12 needs inspection</h4><div style="width:8px;height:8px;border-radius:50%;background:var(--destructive)"></div></div>
+                  <span class="text-sm text-muted whitespace-nowrap ml-4">3 days ago</span>
+                </div>
+                <p class="text-muted text-sm mb-3">Wooden pallet has damage reported during last use. Please inspect before next dispatch.</p>
+                <div class="flex items-center gap-3">
+                  <span class="badge badge-outline"><i class="fas fa-box mr-1" style="font-size:0.65rem"></i>BX-5567-12</span>
+                  <button class="text-sm font-medium" style="color:var(--teal);background:none;border:none;cursor:pointer">View Details</button>
+                  <button class="close-notification text-sm" style="color:var(--muted-foreground);background:none;border:none;cursor:pointer">Mark as Read</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert-card">
+              <div class="alert-icon" style="background:#dbeafe"><i class="fas fa-info-circle" style="color:var(--info)"></i></div>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-1">
+                  <h4 style="font-weight:600;font-size:0.875rem">Maintenance completed on BX-9901-56</h4>
+                  <span class="text-sm text-muted whitespace-nowrap ml-4">1 week ago</span>
+                </div>
+                <p class="text-muted text-sm mb-3">Wooden pallet has been repaired and is ready for use. Reset cycle count to 0.</p>
+                <div class="flex items-center gap-3">
+                  <span class="badge badge-outline"><i class="fas fa-box mr-1" style="font-size:0.65rem"></i>BX-9901-56</span>
+                  <button class="text-sm font-medium" style="color:var(--teal);background:none;border:none;cursor:pointer">View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inspection Tab -->
+        <div id="inspection-alerts" class="alert-content hidden p-6">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:var(--warning-light)"><i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i></div>
+              <div class="flex-1">
+                <h4 style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem">Box BX-4892-75 approaching cycle limit</h4>
+                <p class="text-muted text-sm mb-2">Plastic container has reached 147 of 150 allowed cycles.</p>
+                <span class="text-sm text-muted">2 hours ago</span>
+              </div>
+              <button class="close-notification btn-ghost"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:var(--warning-light)"><i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i></div>
+              <div class="flex-1">
+                <h4 style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem">Box BX-5567-12 needs inspection</h4>
+                <p class="text-muted text-sm mb-2">Wooden pallet has damage reported during last use.</p>
+                <span class="text-sm text-muted">3 days ago</span>
+              </div>
+              <button class="close-notification btn-ghost"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- EOL Tab -->
+        <div id="eol-alerts" class="alert-content hidden p-6">
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="alert-card unread">
+              <div class="alert-icon" style="background:#fee2e2"><i class="fas fa-times-circle" style="color:var(--destructive)"></i></div>
+              <div class="flex-1">
+                <h4 style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem">Box BX-3021-43 reached end of life</h4>
+                <p class="text-muted text-sm mb-2">Metal crate has completed 200 cycles. Please retire and replace.</p>
+                <span class="text-sm text-muted">1 day ago</span>
+              </div>
+              <button class="close-notification btn-ghost"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="alert-card">
+              <div class="alert-icon" style="background:#fee2e2"><i class="fas fa-times-circle" style="color:var(--destructive)"></i></div>
+              <div class="flex-1">
+                <h4 style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem">Box BX-4012-88 reached end of life</h4>
+                <p class="text-muted text-sm mb-2">Plastic container has completed 150 cycles. Please retire and replace.</p>
+                <span class="text-sm text-muted">5 days ago</span>
+              </div>
+              <button class="close-notification btn-ghost"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-2 mb-4"><div style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem"><i class="fas fa-box-open"></i></div><span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span></div><p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="track.html">Box Tracking</a></li><li><a href="boxes.html">Lifecycle Monitoring</a></li><li><a href="alerts.html">Alerts & Notifications</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="dashboard.html">Dashboard</a></li><li><a href="generate-qr.html">Generate QR</a></li><li><a href="settings.html">Settings</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4><ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)"><li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li><li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li><li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute, Ongole, AP</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2023 TrackNDrop. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 50 });</script>
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+  <script>
+    // Tab switching — updated for new class names
+    document.querySelectorAll('.alert-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.alert-tab').forEach(t => t.classList.remove('active-tab'));
+        this.classList.add('active-tab');
+        document.querySelectorAll('.alert-content').forEach(c => c.classList.add('hidden'));
+        const target = document.getElementById(`${this.dataset.tab}-alerts`);
+        if (target) target.classList.remove('hidden');
+      });
+    });
+    // Close notification
+    document.querySelectorAll('.close-notification').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = this.closest('.alert-card') || this.closest('.flex.items-start');
+        if (card) card.remove();
+      });
+    });
+  </script>
+</body>
+</html>

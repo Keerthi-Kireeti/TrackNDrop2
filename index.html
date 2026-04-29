@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TrackNDrop — Smart Monitoring System for Returnable Packing Box Lifecycle. Track, monitor, and optimize your returnable packing boxes." />
+  <title>TrackNDrop — Smart Monitoring for Returnable Packing</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- AOS Animations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="common_styles.css" />
+
+  <!-- Theme Initialization — Prevents flash -->
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme') || 'light';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="nav-redesign" data-aos="fade-down">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon"><i class="fas fa-box-open"></i></div>
+          <span>TrackNDrop</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html"><i class="fas fa-truck"></i> Track</a>
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="profile.html" class="btn-ghost" title="Profile"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button class="md:hidden btn-ghost" id="mobileMenuBtn">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Nav -->
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="alerts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-bell"></i> Alerts</a>
+        <a href="track.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-truck"></i> Track</a>
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-cog"></i> Settings</a>
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero-redesign" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="hero-badge" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-cube mr-2"></i> Smart Logistics Platform
+      </div>
+      <h1 data-aos="fade-up" data-aos-delay="200">
+        Streamline Your Packing
+        <span class="accent">Lifecycle Management</span>
+      </h1>
+      <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="300">
+        Track, monitor, and optimize your returnable packing boxes with our intelligent lifecycle management system. Enterprise-grade visibility in real-time.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
+        <a href="login.html" class="btn-primary btn-lg">
+          <i class="fas fa-sign-in-alt"></i> Get Started Free
+        </a>
+        <a href="dashboard.html" class="btn-outline btn-lg">
+          View Demo
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="500">
+        <div class="text-center">
+          <div style="font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--primary)">50K+</div>
+          <div class="text-muted text-sm">Boxes Tracked</div>
+        </div>
+        <div class="text-center">
+          <div style="font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--primary)">99.9%</div>
+          <div class="text-muted text-sm">Uptime</div>
+        </div>
+        <div class="text-center">
+          <div style="font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--primary)">2.5s</div>
+          <div class="text-muted text-sm">Avg Response Time</div>
+        </div>
+        <div class="text-center">
+          <div style="font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--primary)">500+</div>
+          <div class="text-muted text-sm">Active Clients</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features Section ===== -->
+  <section id="features" class="py-20 lg:py-28">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-title" data-aos="fade-up">Everything You Need</h2>
+      <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Powerful features designed for modern packing logistics</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="0">
+          <div class="card-content">
+            <div class="kpi-icon teal mb-4"><i class="fas fa-box"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Lifecycle Tracking</h3>
+            <p class="text-muted">Monitor every box from check-out to check-in with full history and audit trail.</p>
+          </div>
+        </div>
+        <!-- Feature 2 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+          <div class="card-content">
+            <div class="kpi-icon amber mb-4"><i class="fas fa-qrcode"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">QR Scan & Generate</h3>
+            <p class="text-muted">Fast scanning and secure QR generation for each package. Instant verification.</p>
+          </div>
+        </div>
+        <!-- Feature 3 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="200">
+          <div class="card-content">
+            <div class="kpi-icon blue mb-4"><i class="fas fa-bell"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Smart Alerts</h3>
+            <p class="text-muted">Get notified for inspections, end-of-life, and anomalies in real time.</p>
+          </div>
+        </div>
+        <!-- Feature 4 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="300">
+          <div class="card-content">
+            <div class="kpi-icon green mb-4"><i class="fas fa-chart-line"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Analytics Dashboard</h3>
+            <p class="text-muted">Visualize usage, turnover trends, and asset health at a glance.</p>
+          </div>
+        </div>
+        <!-- Feature 5 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="400">
+          <div class="card-content">
+            <div class="kpi-icon slate mb-4"><i class="fas fa-shield-alt"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Secure & Compliant</h3>
+            <p class="text-muted">Enterprise-grade security with full compliance standards and role-based access.</p>
+          </div>
+        </div>
+        <!-- Feature 6 -->
+        <div class="card" data-aos="zoom-in" data-aos-delay="500">
+          <div class="card-content">
+            <div class="kpi-icon red mb-4"><i class="fas fa-bolt"></i></div>
+            <h3 style="font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Lightning Fast</h3>
+            <p class="text-muted">Optimized performance for rapid data processing and real-time updates.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How It Works ===== -->
+  <section class="py-20 lg:py-28" style="background:var(--muted)">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-title" data-aos="fade-up">How It Works</h2>
+      <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Three simple steps to optimize your operations</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="card text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="card-content">
+            <div class="kpi-icon teal mx-auto mb-4" style="width:3.5rem;height:3.5rem;font-size:1.25rem;font-weight:700">1</div>
+            <h4 style="font-weight:600;margin-bottom:0.5rem">Scan & Identify</h4>
+            <p class="text-muted text-sm">Use the built-in QR scanner to identify and load box details instantly.</p>
+          </div>
+        </div>
+        <div class="card text-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="card-content">
+            <div class="kpi-icon blue mx-auto mb-4" style="width:3.5rem;height:3.5rem;font-size:1.25rem;font-weight:700">2</div>
+            <h4 style="font-weight:600;margin-bottom:0.5rem">Track & Update</h4>
+            <p class="text-muted text-sm">Update status, location, and lifecycle events securely in real time.</p>
+          </div>
+        </div>
+        <div class="card text-center" data-aos="fade-up" data-aos-delay="300">
+          <div class="card-content">
+            <div class="kpi-icon green mx-auto mb-4" style="width:3.5rem;height:3.5rem;font-size:1.25rem;font-weight:700">3</div>
+            <h4 style="font-weight:600;margin-bottom:0.5rem">Analyze & Act</h4>
+            <p class="text-muted text-sm">Use dashboards and alerts to optimize operations and reduce losses.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="350">
+        <a href="login.html" class="btn-primary btn-lg">
+          Start now <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA Banner ===== -->
+  <section class="py-20 lg:py-28" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="card" style="background:var(--primary);border:none">
+        <div class="card-content text-center" style="padding:3rem;color:var(--primary-foreground)">
+          <h2 style="font-size:clamp(1.5rem,4vw,2.25rem);font-weight:700;margin-bottom:1rem;color:var(--primary-foreground)">Ready to Transform Your Logistics?</h2>
+          <p style="font-size:1.125rem;opacity:0.9;max-width:640px;margin:0 auto 2rem">Join hundreds of companies optimizing their supply chain with TrackNDrop</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="signup.html" class="btn-secondary btn-lg">Start Free Trial</a>
+            <a href="login.html" class="btn-outline btn-lg" style="border-color:var(--primary-foreground);color:var(--primary-foreground)">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="logo-icon" style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span>
+          </div>
+          <p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div>
+          <h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4>
+          <ul style="display:flex;flex-direction:column;gap:0.5rem">
+            <li><a href="track.html">Box Tracking</a></li>
+            <li><a href="boxes.html">Lifecycle Monitoring</a></li>
+            <li><a href="alerts.html">Alerts & Notifications</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4>
+          <ul style="display:flex;flex-direction:column;gap:0.5rem">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="generate-qr.html">Generate QR</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="index.html">Home</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)">
+            <li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li>
+            <li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li>
+            <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute Of Technology & Sciences, Ongole, AP</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 TrackNDrop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 100, easing: 'ease-out' });</script>
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

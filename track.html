@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackNDrop — Track Your Order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="common_styles.css">
+  <script>(function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();</script>
+  <style>
+    @keyframes truck-move { 0%{transform:translateX(-3px)} 50%{transform:translateX(3px)} 100%{transform:translateX(-3px)} }
+    .animate-truck { display:inline-block; animation:truck-move 1s infinite; }
+    #statusDiv { max-height:500px; overflow-y:auto; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="index.html" class="nav-logo"><div class="logo-icon"><i class="fas fa-box-open"></i></div><span>TrackNDrop</span></a>
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html" class="active"><i class="fas fa-truck"></i> Track</a>
+          <a href="generate-qr.html"><i class="fas fa-qrcode"></i> Generate QR</a>
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="profile.html" class="btn-ghost" title="Profile"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+        <button class="md:hidden btn-ghost" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i class="fas fa-bars text-xl"></i></button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="alerts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-bell"></i> Alerts</a>
+        <a href="track.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="background:var(--primary);color:var(--primary-foreground)"><i class="fas fa-truck"></i> Track</a>
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-cog"></i> Settings</a>
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Tracking Section -->
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="mb-8 text-center" data-aos="fade-down">
+        <h1 style="font-size:1.875rem;font-weight:700;margin-bottom:0.5rem">Track Package</h1>
+        <p class="text-muted">Enter your tracking number to see real-time updates</p>
+      </div>
+
+      <!-- Search Card -->
+      <div class="card mb-8" style="box-shadow:var(--shadow-lg)" data-aos="fade-up">
+        <div class="card-content">
+          <div class="flex gap-3">
+            <div class="relative flex-1">
+              <i class="fas fa-search" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--muted-foreground)"></i>
+              <input type="text" id="trackingInput" placeholder="Enter tracking number (e.g., BOX001)" style="padding-left:2.5rem;height:3rem">
+            </div>
+            <button id="trackButton" class="btn-primary btn-lg">
+              <i class="fas fa-truck-fast animate-truck"></i> Track
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Display -->
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-header">
+          <div class="card-title">Order Status</div>
+          <p class="card-description">Detailed tracking information</p>
+        </div>
+        <div class="card-content">
+          <div id="statusDiv" style="border-radius:var(--radius)">
+            <div class="flex items-center gap-3 p-4" style="background:var(--muted);border-radius:var(--radius)">
+              <i class="fas fa-search text-xl" style="color:var(--muted-foreground)"></i>
+              <p class="text-muted">Enter a tracking number to see status updates</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-2 mb-4"><div style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem"><i class="fas fa-box-open"></i></div><span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span></div><p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="track.html">Box Tracking</a></li><li><a href="boxes.html">Lifecycle Monitoring</a></li><li><a href="alerts.html">Alerts & Notifications</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="dashboard.html">Dashboard</a></li><li><a href="generate-qr.html">Generate QR</a></li><li><a href="settings.html">Settings</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4><ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)"><li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li><li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li><li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute, Ongole, AP</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2023 TrackNDrop. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 50 });</script>
+  <script src="script.js"></script>
+  <script src="tracking.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrackNDrop — Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <link rel="stylesheet" href="common_styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();
+  </script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav-redesign" data-aos="fade-down">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon"><i class="fas fa-box-open"></i></div>
+          <span>TrackNDrop</span>
+        </a>
+        <div class="nav-links hidden md:flex">
+          <a href="dashboard.html" class="active"><i class="fas fa-chart-bar"></i> Dashboard</a>
+          <a href="boxes.html"><i class="fas fa-box"></i> Boxes</a>
+          <a href="alerts.html"><i class="fas fa-bell"></i> Alerts</a>
+          <a href="track.html"><i class="fas fa-truck"></i> Track</a>
+          <a href="generate-qr.html"><i class="fas fa-qrcode"></i> Generate QR</a>
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          <a href="profile.html" class="btn-ghost" title="Profile"><i class="fas fa-user-circle text-xl"></i></a>
+        </div>
+        <button class="md:hidden btn-ghost" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"><i class="fas fa-bars text-xl"></i></button>
+      </div>
+    </div>
+    <div class="hidden md:hidden border-t" id="mobileMenu" style="border-color:var(--border);background:var(--card)">
+      <div class="container mx-auto px-4 py-4 flex flex-col gap-1">
+        <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="background:var(--primary);color:var(--primary-foreground)"><i class="fas fa-chart-bar"></i> Dashboard</a>
+        <a href="boxes.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-box"></i> Boxes</a>
+        <a href="alerts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-bell"></i> Alerts</a>
+        <a href="track.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-truck"></i> Track</a>
+        <a href="generate-qr.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-qrcode"></i> Generate QR</a>
+        <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-cog"></i> Settings</a>
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm" style="color:var(--muted-foreground)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8" data-aos="fade-down">
+      <h1 style="font-size:1.875rem;font-weight:700;margin-bottom:0.5rem">Dashboard</h1>
+      <p class="text-muted">Welcome back! Here's your logistics overview.</p>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+      <div class="kpi-card" data-aos="zoom-in" data-aos-delay="0" onclick="window.location.href='total-boxes-analytics.html'">
+        <div class="flex items-center justify-between mb-4">
+          <div class="kpi-icon teal"><i class="fas fa-box"></i></div>
+        </div>
+        <div class="kpi-value" id="totalBoxes">Loading...</div>
+        <div class="kpi-label">Total Boxes</div>
+      </div>
+      <div class="kpi-card" data-aos="zoom-in" data-aos-delay="100" onclick="window.location.href='active-boxes-analytics.html'">
+        <div class="flex items-center justify-between mb-4">
+          <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
+        </div>
+        <div class="kpi-value" id="activeBoxes">Loading...</div>
+        <div class="kpi-label">Active Boxes</div>
+      </div>
+      <div class="kpi-card" data-aos="zoom-in" data-aos-delay="200" onclick="window.location.href='inspection-boxes-analytics.html'">
+        <div class="flex items-center justify-between mb-4">
+          <div class="kpi-icon amber"><i class="fas fa-exclamation-triangle"></i></div>
+        </div>
+        <div class="kpi-value" id="needsInspection">Loading...</div>
+        <div class="kpi-label">Needs Inspection</div>
+      </div>
+      <div class="kpi-card" data-aos="zoom-in" data-aos-delay="300" onclick="window.location.href='eol-boxes-analytics.html'">
+        <div class="flex items-center justify-between mb-4">
+          <div class="kpi-icon blue"><i class="fas fa-times-circle"></i></div>
+        </div>
+        <div class="kpi-value" id="endOfLife">Loading...</div>
+        <div class="kpi-label">End of Life</div>
+      </div>
+      <div class="kpi-card" data-aos="zoom-in" data-aos-delay="400" onclick="window.location.href='missing-boxes-analytics.html'">
+        <div class="flex items-center justify-between mb-4">
+          <div class="kpi-icon red"><i class="fas fa-search"></i></div>
+        </div>
+        <div class="kpi-value" id="missingBoxes">Loading...</div>
+        <div class="kpi-label">Missing</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div class="card" data-aos="fade-right">
+        <div class="card-header">
+          <div class="card-title">Box Usage Distribution</div>
+          <p class="card-description">Current distribution of box statuses</p>
+        </div>
+        <div class="card-content">
+          <canvas id="usageChart" height="280"></canvas>
+        </div>
+      </div>
+      <div class="card" data-aos="fade-left">
+        <div class="card-header">
+          <div class="card-title">Monthly Box Turnover</div>
+          <p class="card-description">Check-in vs check-out trends over time</p>
+        </div>
+        <div class="card-content">
+          <canvas id="turnoverChart" height="280"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Chart Logic (preserved from original) -->
+  <script>
+    let usageChart, turnoverChart;
+    function initCharts() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const gridColor = isDark ? '#333' : '#e2e8f0';
+      const textColor = isDark ? '#a1a1aa' : '#64748b';
+
+      const usageCtx = document.getElementById('usageChart').getContext('2d');
+      usageChart = new Chart(usageCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Active', 'Needs Inspection', 'End of Life'],
+          datasets: [{ data: [0,0,0], backgroundColor: ['#14b8a6','#f59e0b','#ef4444'], hoverOffset: 4, borderWidth: 0 }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: textColor, padding: 16 } } } }
+      });
+      const turnoverCtx = document.getElementById('turnoverChart').getContext('2d');
+      turnoverChart = new Chart(turnoverCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+          datasets: [
+            { label: 'Checked In', data: [0,0,0,0,0,0], borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.1)', fill: true, tension: 0.4 },
+            { label: 'Checked Out', data: [0,0,0,0,0,0], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', fill: true, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom', labels: { color: textColor, padding: 16 } } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor } },
+            x: { grid: { color: gridColor }, ticks: { color: textColor } }
+          }
+        }
+      });
+    }
+    function fetchDashboardStats() {
+      const mockData = {
+        total_boxes: 500, active_boxes: 300, needs_inspection: 150, end_of_life: 50, missing_boxes: 50,
+        usage_chart: [300, 150, 50],
+        turnover_chart: { labels: ['Jan','Feb','Mar','Apr','May','Jun'], checked_in: [45,52,48,55,50,48], checked_out: [42,49,45,52,47,45] }
+      };
+      document.getElementById('totalBoxes').textContent = mockData.total_boxes;
+      document.getElementById('activeBoxes').textContent = mockData.active_boxes;
+      document.getElementById('needsInspection').textContent = mockData.needs_inspection;
+      document.getElementById('endOfLife').textContent = mockData.end_of_life;
+      document.getElementById('missingBoxes').textContent = mockData.missing_boxes;
+      usageChart.data.datasets[0].data = mockData.usage_chart;
+      usageChart.update();
+      turnoverChart.data.labels = mockData.turnover_chart.labels;
+      turnoverChart.data.datasets[0].data = mockData.turnover_chart.checked_in;
+      turnoverChart.data.datasets[1].data = mockData.turnover_chart.checked_out;
+      turnoverChart.update();
+    }
+    document.addEventListener('DOMContentLoaded', () => { initCharts(); fetchDashboardStats(); });
+  </script>
+
+  <!-- Footer -->
+  <footer class="footer-redesign">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div style="width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary-foreground);font-size:0.9rem"><i class="fas fa-box-open"></i></div>
+            <span style="font-family:var(--font-heading);font-weight:700;font-size:1.125rem">TrackNDrop</span>
+          </div>
+          <p class="text-muted text-sm">Smart Monitoring System for Returnable Packing Box Lifecycle</p>
+        </div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Features</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="track.html">Box Tracking</a></li><li><a href="boxes.html">Lifecycle Monitoring</a></li><li><a href="alerts.html">Alerts & Notifications</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Resources</h4><ul style="display:flex;flex-direction:column;gap:0.5rem"><li><a href="dashboard.html">Dashboard</a></li><li><a href="generate-qr.html">Generate QR</a></li><li><a href="settings.html">Settings</a></li></ul></div>
+        <div><h4 style="font-weight:600;margin-bottom:1rem;font-size:0.875rem">Contact Us</h4><ul style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.875rem;color:var(--muted-foreground)"><li class="flex items-center gap-2"><i class="fas fa-envelope" style="color:var(--teal)"></i> info@trackndrop.com</li><li class="flex items-center gap-2"><i class="fas fa-phone" style="color:var(--teal)"></i> +91 6305351212</li><li class="flex items-center gap-2"><i class="fas fa-map-marker-alt" style="color:var(--teal)"></i> PACE Institute, Ongole, AP</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2023 TrackNDrop. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true, duration: 600, offset: 50 });</script>
+  <script src="script.js"></script>
+  <script src="floating-theme-toggle.js"></script>
+  <script src="role-access.js"></script>
+</body>
+</html>
